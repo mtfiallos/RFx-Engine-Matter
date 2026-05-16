@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Mail, Search, RefreshCw, Archive, Settings, Check, Trash2, Reply, X, ArrowLeft, Send } from 'lucide-react';
 import { InboundEmail, getInboundEmails, updateInboundEmailStatus, deleteInboundEmail } from '../services/communicationsService';
 
-export function CommunicationsModule({ userEmail, platformIntegrations, onConfigure }: { userEmail: string | undefined, platformIntegrations: any[], onConfigure: () => void }) {
+export function CommunicationsModule({ userEmail, platformIntegrations, onConfigure, isFullWidth = false }: { userEmail: string | undefined, platformIntegrations: any[], onConfigure: () => void, isFullWidth?: boolean }) {
   const [emails, setEmails] = useState<InboundEmail[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState<InboundEmail | null>(null);
@@ -89,7 +89,7 @@ export function CommunicationsModule({ userEmail, platformIntegrations, onConfig
   }
 
   return (
-    <div className="h-full flex flex-col pt-8 px-8 max-w-[1600px] mx-auto overflow-hidden">
+    <div className={`h-full flex flex-col pt-8 px-8 ${isFullWidth ? 'w-full' : 'max-w-[1600px]'} mx-auto overflow-hidden`}>
       <AnimatePresence mode="wait">
         {!selectedEmail ? (
           <motion.div 
@@ -107,10 +107,10 @@ export function CommunicationsModule({ userEmail, platformIntegrations, onConfig
                 </p>
               </div>
               <div className="flex gap-2">
-                <button className="p-2 border border-[var(--line)] rounded-lg hover:bg-white/5 text-[var(--muted)] transition-colors">
+                <button className="p-2 border border-[var(--line)] rounded-lg hover:bg-[var(--muted-bg)] text-[var(--muted)] transition-colors">
                   <Search size={18} />
                 </button>
-                <button onClick={fetchEmails} className="p-2 border border-[var(--line)] rounded-lg hover:bg-white/5 text-[var(--muted)] transition-colors">
+                <button onClick={fetchEmails} className="p-2 border border-[var(--line)] rounded-lg hover:bg-[var(--muted-bg)] text-[var(--muted)] transition-colors">
                   <RefreshCw size={18} className={isLoading ? 'animate-spin' : ''} />
                 </button>
               </div>
@@ -127,7 +127,7 @@ export function CommunicationsModule({ userEmail, platformIntegrations, onConfig
                   {emails.map((email) => (
                     <div 
                       key={email.id} 
-                      className={`group flex items-start p-6 hover:bg-white/5 cursor-pointer transition-colors ${email.status === 'unread' ? 'bg-[var(--accent)]/5' : ''}`}
+                      className={`group flex items-start p-6 hover:bg-[var(--muted-bg)] cursor-pointer transition-colors ${email.status === 'unread' ? 'bg-[var(--accent)]/5' : ''}`}
                       onClick={() => handleMarkAsRead(email)}
                     >
                       <div className="flex-1 min-w-0">
@@ -193,7 +193,7 @@ export function CommunicationsModule({ userEmail, platformIntegrations, onConfig
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => setIsReplying(!isReplying)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[10px] font-bold uppercase transition-all ${isReplying ? 'bg-[var(--accent)] text-[var(--bg)]' : 'border border-[var(--line)] text-[var(--ink)] hover:bg-white/5'}`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[10px] font-bold uppercase transition-all ${isReplying ? 'bg-[var(--accent)] text-[var(--bg)]' : 'border border-[var(--line)] text-[var(--ink)] hover:bg-[var(--muted-bg)]'}`}
                 >
                   <Reply size={14} /> {isReplying ? 'Cancel Reply' : 'Reply'}
                 </button>
@@ -230,7 +230,7 @@ export function CommunicationsModule({ userEmail, platformIntegrations, onConfig
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className={`px-3 py-1 rounded-full font-mono text-[9px] font-bold uppercase tracking-widest ${selectedEmail.status === 'unread' ? 'bg-[var(--accent)] text-[var(--bg)]' : 'bg-white/10 text-[var(--muted)]'}`}>
+                    <span className={`px-3 py-1 rounded-full font-mono text-[9px] font-bold uppercase tracking-widest ${selectedEmail.status === 'unread' ? 'bg-[var(--accent)] text-[var(--bg)]' : 'bg-[var(--muted-bg)] text-[var(--muted)]'}`}>
                       {selectedEmail.status}
                     </span>
                   </div>
@@ -256,7 +256,7 @@ export function CommunicationsModule({ userEmail, platformIntegrations, onConfig
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
                       placeholder="Type your response here..."
-                      className="w-full h-48 bg-white/5 border border-[var(--line)] rounded-xl p-4 text-[var(--ink)] font-sans resize-none focus:border-[var(--accent)] outline-none transition-colors mb-4"
+                      className="w-full h-48 bg-[var(--bg)]/10 border border-[var(--line)] rounded-xl p-4 text-[var(--ink)] font-sans resize-none focus:border-[var(--accent)] outline-none transition-colors mb-4"
                     />
                     <div className="flex justify-end gap-3">
                       <button 

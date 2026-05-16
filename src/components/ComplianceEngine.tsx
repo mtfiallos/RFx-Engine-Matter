@@ -171,7 +171,7 @@ export function ComplianceEngine({ submission }: { submission: any }) {
 
                 <section>
                   <h5 className="font-mono text-[10px] font-bold uppercase text-[var(--accent)] mb-3">Framework Comparison ({selectedItem.framework})</h5>
-                  <div className="p-6 bg-white/5 border border-[var(--line)] rounded-2xl space-y-4">
+                  <div className="p-6 bg-[var(--muted-bg)] border border-[var(--line)] rounded-2xl space-y-4">
                     <div className="flex items-start gap-3">
                       {selectedItem.status === 'pass' ? <CheckCircle2 className="text-green-500 shrink-0" size={18} /> : <AlertTriangle className="text-red-500 shrink-0" size={18} />}
                       <div>
@@ -190,12 +190,12 @@ export function ComplianceEngine({ submission }: { submission: any }) {
                         <h6 className="font-mono text-[11px] font-bold uppercase mb-4 flex items-center gap-2">
                            <FileText size={14} /> Formal Draft Addendum
                         </h6>
-                        <div className="font-serif text-sm text-[var(--ink)] opacity-90 leading-relaxed whitespace-pre-wrap bg-white/5 p-4 rounded-lg">
+                        <div className="font-serif text-sm text-[var(--ink)] opacity-90 leading-relaxed whitespace-pre-wrap bg-[var(--muted-bg)] p-4 rounded-lg">
                           {addendums[selectedItem.id]}
                         </div>
                       </div>
                       <button 
-                        className="w-full py-3 bg-[var(--line)] text-[var(--ink)] rounded-xl font-mono font-bold uppercase text-xs hover:bg-white/10 transition-all border border-white/5"
+                        className="w-full py-3 bg-[var(--line)] text-[var(--ink)] rounded-xl font-mono font-bold uppercase text-xs hover:bg-[var(--muted-bg)] transition-all border border-white/5"
                         onClick={() => {
                           const blob = new Blob([addendums[selectedItem.id]], {type: 'text/plain'});
                           const url = URL.createObjectURL(blob);

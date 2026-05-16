@@ -58,7 +58,7 @@ export function KnowledgeGraph({ data }: { data: any }) {
         .attr("viewBox", [0, 0, width, height]);
 
     const link = svg.append("g")
-        .attr("stroke", "#999")
+        .attr("stroke", "var(--line)")
         .attr("stroke-opacity", 0.6)
         .selectAll("line")
         .data(links)
@@ -66,7 +66,7 @@ export function KnowledgeGraph({ data }: { data: any }) {
         .attr("stroke-width", d => Math.sqrt(d.value));
 
     const node = svg.append("g")
-        .attr("stroke", "#fff")
+        .attr("stroke", "var(--bg)")
         .attr("stroke-width", 1.5)
         .selectAll("circle")
         .data(nodes)
@@ -86,7 +86,7 @@ export function KnowledgeGraph({ data }: { data: any }) {
         .attr("font-size", "10px")
         .attr("dx", 12)
         .attr("dy", 4)
-        .attr("fill", "#000");
+        .attr("fill", "var(--ink)");
 
     simulation.on("tick", () => {
         link
@@ -130,5 +130,5 @@ export function KnowledgeGraph({ data }: { data: any }) {
 
   }, [data]);
 
-  return <div ref={containerRef} className="w-full bg-slate-50 border border-slate-200 rounded-lg overflow-hidden" />;
+  return <div ref={containerRef} className="w-full bg-[var(--card-bg)] border border-[var(--line)] rounded-2xl overflow-hidden shadow-2xl" />;
 }

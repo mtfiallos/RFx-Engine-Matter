@@ -1,78 +1,174 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-serif: "Libre Baskerville", serif;
 }
 
 :root {
-  --bg: #0a192f; /* Deep Dark Navy */
-  --ink: #e6f1ff; /* Light Text */
-  --line: #233554; /* Border */
-  --card-bg: #112240; /* Card Background */
-  --accent: #64ffda; /* Teal Accent */
-  --muted: #8892b0; /* Muted Text */
+  /* High-Tech Dark Palette - DEFAULT */
+  --bg: #020617; 
+  --card-bg: #0f172a; 
+  --ink: #f8fafc;
+  --muted: #94a3b8;
+  --muted-bg: rgba(255, 255, 255, 0.03);
+  --accent: #22d3ee; 
+  --accent-glow: rgba(34, 211, 238, 0.4);
+  --line: rgba(34, 211, 238, 0.15);
+  --nav-bg: #030712;
+  --nav-ink: #f8fafc;
+  --nav-line: rgba(255, 255, 255, 0.1);
+}
+
+/* User's "Light Mode" - Light Background, Dark Blue Components */
+html.light-mode {
+  --bg: #f8fafc; 
+  --card-bg: #1e293b; 
+  --accent: #06b6d4; 
+  --accent-glow: rgba(6, 182, 212, 0.2);
+  --line: rgba(255, 255, 255, 0.1); 
+  --ink: #f8fafc; 
+  --bg-ink: #0f172a; 
+  --muted: #94a3b8; 
+  --muted-bg: rgba(255, 255, 255, 0.05);
+  --nav-bg: #f1f5f9; 
+  --nav-ink: #0f172a;
+  --nav-line: rgba(15, 23, 42, 0.08);
 }
 
 body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
+  margin: 0;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
+}
+
+/* Redesigned Technical Grid Background */
+.circuit-pattern {
+  background-image: 
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(to right, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 20px 20px, 20px 20px;
+  background-position: center;
+}
+
+.bg-ink-text {
+  color: var(--bg-ink, var(--ink));
+}
+
+.global-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 9999;
+  transform-origin: left;
+  box-shadow: 0 0 10px var(--accent);
 }
 
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
-  padding: 1rem;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
 }
 
 .bento-card {
   background-color: var(--card-bg);
   border: 1px solid var(--line);
-  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
   padding: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Subtle Circuit Overlay */
+.bento-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 L50 10 L50 50 L10 50 Z' fill='none' stroke='rgba(34, 211, 238, 0.03)' stroke-width='0.5'/%3E%3Cpath d='M0 30 H60 M30 0 V60' stroke='rgba(34, 211, 238, 0.02)' stroke-width='0.2'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .bento-card {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
 }
 
 .bento-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
-  transform: translateY(-4px);
+  box-shadow: 0 0 30px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.bento-card:active {
+  transform: scale(0.99);
+  border-color: var(--accent);
+  box-shadow: 0 0 50px var(--accent);
 }
 
 .data-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.015);
   border-bottom: 1px solid var(--line);
   transition: all 0.2s ease;
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .data-row {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 2px;
+  }
 }
 
 .data-row:hover {
-  background: rgba(100, 255, 218, 0.1);
+  background: rgba(34, 211, 238, 0.08);
   transform: translateX(4px);
+  border-left: 3px solid var(--accent);
 }
 
 .col-header {
   font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.75rem 1rem;
   color: var(--muted);
+  letter-spacing: 0.15em;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 768px) {
+  .col-header {
+    padding: 0.4rem 0.6rem;
+    font-size: 8px;
+  }
 }
 
 .data-value {
@@ -80,28 +176,50 @@ body {
   color: var(--ink);
 }
 
+@media (max-width: 768px) {
+  .data-value {
+    font-size: 11px;
+  }
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--bg);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--line);
   border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
+  background: var(--accent);
 }
 
-html.dark {
-  filter: invert(1) hue-rotate(180deg);
+/* UI Elements scaling for Mobile */
+@media (max-width: 768px) {
+  .recharts-wrapper {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+  .recharts-legend-wrapper {
+    display: none !important;
+  }
+  .recharts-responsive-container {
+    height: 180px !important;
+  }
 }
-html.dark img,
-html.dark iframe,
-html.dark video,
-html.dark .no-invert {
-  filter: invert(1) hue-rotate(180deg);
+
+/* Remove Footer */
+footer { display: none !important; }
+
+/* Haptic Polish on Buttons */
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 15px var(--accent);
 }

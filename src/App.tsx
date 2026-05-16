@@ -65,6 +65,7 @@ import {
   Check,
   Settings,
   Maximize,
+  Minimize,
   Download,
   Menu,
   Folder,
@@ -137,8 +138,8 @@ function TemplateUploadWizard({ onClose, onComplete }: { onClose: () => void, on
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl border border-neutral-200 shadow-sm w-full max-w-lg">
-        <div className="flex justify-between items-center bg-slate-900 text-white rounded-t-xl p-4">
+      <div className="bg-[var(--card-bg)] rounded-2xl border border-[var(--line)] shadow-2xl w-full max-w-lg overflow-hidden">
+        <div className="flex justify-between items-center bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-t-xl p-4">
           <div className="font-mono text-sm font-bold uppercase truncate">Upload Template</div>
           {!isUploading && <button onClick={onClose} className="hover:rotate-90 transition-transform rounded-md shadow-sm"><X size={18} /></button>}
         </div>
@@ -198,8 +199,8 @@ function QuickIngestWizard({ onClose, onComplete }: { onClose: () => void, onCom
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl border border-neutral-200 shadow-xl w-full max-w-lg flex flex-col max-h-[90vh]">
-        <div className="flex justify-between items-center bg-slate-900 text-white rounded-t-2xl p-4 shrink-0">
+      <div className="bg-[var(--card-bg)] rounded-[24px] border border-[var(--accent)]/30 shadow-[0_0_50px_rgba(0,0,0,0.5)] w-full max-w-lg flex flex-col max-h-[90vh] overflow-hidden">
+        <div className="flex justify-between items-center bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-t-2xl p-4 shrink-0">
           <div className="font-sans text-sm font-bold tracking-wide flex items-center gap-2"><Upload size={16} className="text-blue-400"/> Analyze New RFP</div>
           <button onClick={onClose} className="hover:rotate-90 transition-transform rounded-md shadow-sm"><X size={18} /></button>
         </div>
@@ -274,7 +275,7 @@ function QuickIngestWizard({ onClose, onComplete }: { onClose: () => void, onCom
 function TemplateVersionsViewer({ template, onClose, onRevert }: { template: TemplateArtifact, onClose: () => void, onRevert: (version: number) => void }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl border border-neutral-200 rounded-lg shadow-sm rounded-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+      <div className="bg-[var(--card-bg)] rounded-2xl border border-[var(--line)] shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
         <div className="flex justify-between items-center bg-slate-900 text-white rounded-lg p-4 shrink-0">
           <div className="font-mono text-sm font-bold uppercase truncate">Version History // {template.name}</div>
           <button onClick={onClose} className="hover:rotate-90 transition-transform rounded-md shadow-sm"><X size={18} /></button>
@@ -398,7 +399,7 @@ function FileViewer({ filename, content, driveUrl: initialDriveUrl, onClose }: {
                  ></iframe>
              </div>
           ) : (
-            <div className="bg-white p-12 w-full max-w-4xl min-h-[11in] border border-neutral-100 rounded-lg shadow-2xl mx-auto flex flex-col my-4">
+            <div className="bg-[var(--card-bg)] p-8 md:p-12 w-full max-w-4xl min-h-[11in] border border-[var(--line)] shadow-[0_0_100px_rgba(0,0,0,0.1)] mx-auto flex flex-col my-4 text-[var(--ink)]">
               {isImage ? (
                 <img src={loadedContent!} alt={filename} className="max-w-full h-auto mx-auto object-contain" />
               ) : (
@@ -542,7 +543,7 @@ function ShareModal({
       <motion.div 
         initial={{ scale: 0.95, y: 20 }}
         animate={{ scale: 1, y: 0 }}
-        className="bg-white rounded-xl border border-neutral-200 rounded-lg w-full max-w-md shadow-sm rounded-xl p-6"
+        className="bg-[var(--card-bg)] rounded-2xl border border-[var(--line)] w-full max-w-md shadow-2xl p-6"
       >
         <div className="flex justify-between items-start mb-6 border-b border-black pb-4">
           <div>
@@ -595,7 +596,7 @@ function ShareModal({
                 </select>
                 <button 
                   onClick={handleAddShare}
-                  className="bg-slate-900 text-white px-4 font-mono text-[10px] font-bold uppercase hover:bg-neutral-800 rounded-md shadow-sm"
+                  className="bg-[var(--card-bg)] text-[var(--ink)] px-4 font-mono text-[10px] font-bold uppercase hover:bg-[var(--muted-bg)] rounded-md border border-[var(--line)] shadow-sm"
                 >
                   INVITE
                 </button>
@@ -644,7 +645,7 @@ function ShareModal({
               </div>
               <button 
                 onClick={copyToClipboard}
-                className="bg-slate-900 text-white px-4 flex items-center gap-2 hover:bg-neutral-800 transition-colors rounded-md shadow-sm"
+                className="bg-[var(--card-bg)] text-[var(--ink)] px-4 flex items-center gap-2 hover:bg-[var(--muted-bg)] transition-colors rounded-md border border-[var(--line)] shadow-sm"
               >
                 {copying ? <CheckCircle2 size={14} /> : <Copy size={14} />}
                 <span className="font-mono text-[10px] font-bold uppercase">{copying ? 'COPIED' : 'COPY'}</span>
@@ -655,7 +656,7 @@ function ShareModal({
 
         <button 
           onClick={onClose}
-          className="w-full mt-8 bg-slate-900 text-white py-3 font-mono text-xs font-bold tracking-widest hover:bg-neutral-800 transition-colors rounded-md shadow-sm"
+          className="w-full mt-8 bg-[var(--card-bg)] text-[var(--ink)] py-3 font-mono text-xs font-bold tracking-widest hover:bg-[var(--muted-bg)] transition-colors rounded-md border border-[var(--line)] shadow-sm"
         >
           CONFIRM SETTINGS
         </button>
@@ -675,7 +676,9 @@ function RegistersManager({
   setViewingFile,
   setViewingGemContent,
   gemChainLogic,
-  activeEditors
+  activeEditors,
+  setIsGlobalProcessing,
+  setProcessingText
 }: { 
   data: RfxData, 
   onChange: (data: RfxData) => void,
@@ -687,7 +690,9 @@ function RegistersManager({
   setViewingFile: (file: {filename: string, content?: string, driveUrl?: string} | null) => void,
   setViewingGemContent: (content: string | null) => void,
   gemChainLogic: any[],
-  activeEditors?: { [uid: string]: { heartbeat: number, currentStep?: string, email: string } }
+  activeEditors?: { [uid: string]: { heartbeat: number, currentStep?: string, email: string } },
+  setIsGlobalProcessing: (val: boolean) => void,
+  setProcessingText: (text: string) => void
 }) {
   const [tasks, setTasks] = useState<WorkflowTask[]>([]);
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
@@ -755,6 +760,8 @@ function RegistersManager({
   const handleAiAnalysis = async (type: 'requirements' | 'assumptions' | 'risks') => {
     if (isAnalyzing) return;
     setIsAnalyzing(true);
+    setIsGlobalProcessing(true);
+    setProcessingText(`Running Deep ${type.charAt(0).toUpperCase() + type.slice(1)} Extraction...`);
     try {
       const selected = data.files?.filter(f => selectedFileIds.includes(f.id)) || [];
       if (selected.length === 0) {
@@ -824,6 +831,7 @@ function RegistersManager({
       alert("AI Analysis failed: " + (error?.message || "Please try again."));
     } finally {
       setIsAnalyzing(false);
+      setIsGlobalProcessing(false);
       stopTaskRefs.current['AI_SCAN'] = false;
     }
   };
@@ -836,6 +844,8 @@ function RegistersManager({
 
   const startTask = async (type: 'INTAKE' | 'REVIEW', gemsToRun: string[] = []) => {
     if (!submissionId) return;
+    setIsGlobalProcessing(true);
+    setProcessingText(`Triggering Workflow: ${type}...`);
     const taskId = await createWorkflowTask(submissionId, type);
     if (taskId) {
       executeWorkflowTask(taskId, type, gemsToRun);
@@ -1013,9 +1023,11 @@ function RegistersManager({
         progress: 100,
         logs: arrayUnion({ message: stages[stages.length - 1].msg, timestamp: new Date().toISOString() }) as any
       });
+      setIsGlobalProcessing(false);
     } catch (err: any) {
       const errorMessage = err?.message || String(err);
       console.warn('Workflow failed:\n', errorMessage);
+      setIsGlobalProcessing(false);
       await updateTaskStatus(taskId, { 
         status: 'FAILED', 
         progress: 100,
@@ -1310,14 +1322,14 @@ function RegistersManager({
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="border-2 border-blue-600 bg-blue-50 p-4 mb-6 shadow-sm"
+          className="border border-[var(--accent)]/30 bg-[var(--accent)]/5 p-4 mb-6 shadow-sm rounded-xl"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Sparkles className="text-blue-600" size={20} />
+              <Sparkles className="text-[var(--accent)]" size={20} />
               <div>
-                <h4 className="text-xs font-medium tracking-tight text-blue-900">Lifecycle Intelligence Active</h4>
-                <p className="font-mono text-[9px] text-blue-700/70 uppercase">
+                <h4 className="text-xs font-bold tracking-tight text-[var(--accent)] uppercase">Lifecycle Intelligence Active</h4>
+                <p className="font-mono text-[9px] text-[var(--muted)] uppercase">
                   Current Stage: {gemChainLogic.find(g => g.id === data.lifecycle?.currentGemId)?.name || 'Initializing'} 
                   {data.lifecycle.scoreDelta && ` // Optimization Delta: +${data.lifecycle.scoreDelta}%`}
                 </p>
@@ -1326,7 +1338,7 @@ function RegistersManager({
             {(data.lifecycle.executiveSummary || data.lifecycle.remediationActions) && (
               <button 
                 onClick={() => setShowAiReport(true)}
-                className="bg-blue-600 text-white px-4 py-2 font-mono text-[10px] font-bold uppercase hover:bg-blue-700 transition-colors"
+                className="bg-[var(--accent)] text-[var(--bg)] px-4 py-2 font-mono text-[10px] font-bold uppercase hover:opacity-90 transition-opacity rounded-md"
               >
                 View AI Strategy Report
               </button>
@@ -1339,13 +1351,13 @@ function RegistersManager({
         <motion.div 
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="bg-blue-600 text-white p-6 border-4 border-black shadow-sm rounded-xl mb-8"
+          className="bg-[var(--accent)]/10 text-[var(--ink)] p-6 border border-[var(--accent)]/30 shadow-2xl rounded-2xl mb-8 backdrop-blur-sm"
         >
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <Sparkles className="animate-pulse" />
+              <Sparkles className="text-[var(--accent)] animate-pulse" />
               <div>
-                <h4 className="font-mono text-sm font-bold uppercase tracking-tight">Intelligence Scan Pending</h4>
+                <h4 className="font-mono text-sm font-bold uppercase tracking-tight text-[var(--accent)]">Intelligence Scan Pending</h4>
                 <p className="font-mono text-[10px] opacity-70">
                   Documentation detected. Ready to trigger Orchestrator - select file(s) & flow(s) first.
                 </p>
@@ -1359,7 +1371,7 @@ function RegistersManager({
                   alert("Submission ID missing. Please ensure document is saved to a draft first.");
                 }
               }}
-              className="bg-white text-black py-4 text-xs font-medium tracking-widest hover:bg-neutral-100   shadow-sm transition-all"
+              className="bg-[var(--accent)] text-[var(--bg)] py-4 text-xs font-bold tracking-widest hover:opacity-90 shadow-lg transition-all rounded-xl"
             >
               Start AI Intelligence Scan & Scoring
             </button>
@@ -1371,14 +1383,14 @@ function RegistersManager({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`relative transition-all p-4 rounded-xl border-dashed border-[3px] ${isDragOver ? 'bg-blue-500/10 border-blue-500 shadow-sm scale-[1.01]' : 'border-black bg-transparent'} mb-8`}
+        className={`relative transition-all p-4 rounded-xl border-dashed border-[3px] ${isDragOver ? 'bg-[var(--accent)]/10 border-[var(--accent)] shadow-sm scale-[1.01]' : 'border-[var(--line)] bg-transparent'} mb-8`}
       >
         {isDragOver && (
-          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm rounded-xl border-2 border-blue-500 m-[-3px]">
-             <div className="animate-bounce bg-blue-100 p-4 rounded-full mb-4 shadow-sm">
-               <Upload size={32} className="text-blue-600" />
+          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg)]/80 backdrop-blur-sm rounded-xl border-2 border-[var(--accent)] m-[-3px]">
+             <div className="animate-bounce bg-[var(--accent)]/10 p-4 rounded-full mb-4 shadow-sm">
+               <Upload size={32} className="text-[var(--accent)]" />
              </div>
-             <p className="font-mono text-sm font-bold uppercase text-blue-600 tracking-widest bg-white px-4 py-2 shadow-sm">Drop Files to Ingest</p>
+             <p className="font-mono text-sm font-bold uppercase text-[var(--accent)] tracking-widest bg-[var(--card-bg)] px-4 py-2 shadow-sm border border-[var(--line)]">Drop Files to Ingest</p>
           </div>
         )}
         <div className="flex items-center justify-between mb-4 border-b border-black pb-2">
@@ -1405,7 +1417,7 @@ function RegistersManager({
               </Tooltip>
 
               <Tooltip content="Upload an Addendum to diff against the primary package">
-                <label className="font-mono text-[10px] font-bold uppercase px-4 py-2 rounded-md bg-blue-50 text-blue-700 border border-blue-200 shadow-sm hover:bg-blue-100 transition-colors cursor-pointer flex items-center gap-2">
+                <label className="font-mono text-[10px] font-bold uppercase px-4 py-2 rounded-md bg-[var(--accent)]/5 text-[var(--accent)] border border-[var(--accent)]/20 shadow-sm hover:bg-[var(--accent)]/10 transition-colors cursor-pointer flex items-center gap-2">
                   <Sparkles size={12} /> ADDENDUM / DIFF
                   <input type="file" className="hidden" accept=".pdf,.doc,.docx,.txt,.csv,.xls,.xlsx" onChange={async (e) => {
                          if (!e.target.files || e.target.files.length === 0) return;
@@ -1492,11 +1504,11 @@ function RegistersManager({
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {data.files?.map((f, idx) => (
-            <div key={idx} className={`border ${selectedFileIds.includes(f.id) ? 'border-slate-800 bg-slate-50' : 'border-neutral-200 bg-white'} rounded-lg p-3 flex flex-col gap-3 group shadow-sm hover:shadow-md transition-all cursor-pointer`} onClick={() => setSelectedFileIds(prev => prev.includes(f.id) ? prev.filter(i => i !== f.id) : [...prev, f.id])}>
+            <div key={idx} className={`border ${selectedFileIds.includes(f.id) ? 'border-[var(--accent)] bg-[var(--accent)]/5' : 'border-[var(--line)] bg-[var(--card-bg)]'} rounded-2xl p-3 flex flex-col gap-3 group shadow-sm hover:shadow-md transition-all cursor-pointer`} onClick={() => setSelectedFileIds(prev => prev.includes(f.id) ? prev.filter(i => i !== f.id) : [...prev, f.id])}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className={`w-3 h-3 rounded-full flex items-center justify-center border ${selectedFileIds.includes(f.id) ? 'bg-slate-800 border-slate-800' : 'border-neutral-300'}`}>
-                    {selectedFileIds.includes(f.id) && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                  <div className={`w-3 h-3 rounded-full flex items-center justify-center border ${selectedFileIds.includes(f.id) ? 'bg-[var(--accent)] border-[var(--accent)]' : 'border-[var(--muted)]'}`}>
+                    {selectedFileIds.includes(f.id) && <div className="w-1.5 h-1.5 bg-[var(--bg)] rounded-full" />}
                   </div>
                   <div className="min-w-0">
                     <p 
@@ -1529,13 +1541,13 @@ function RegistersManager({
               </div>
 
               <div className="border-t border-black/10 pt-2 flex items-center gap-2">
-                <div className={`flex items-center gap-1 font-mono text-[7px] uppercase font-bold px-1.5 py-0.5 rounded border ${f.scansCompleted?.includes('requirements') ? 'bg-green-50 text-green-700 border-green-200' : 'bg-neutral-50 text-neutral-400 border-neutral-200'}`}>
+                <div className={`flex items-center gap-1 font-mono text-[7px] uppercase font-bold px-1.5 py-0.5 rounded border ${f.scansCompleted?.includes('requirements') ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-[var(--muted-bg)] text-[var(--muted)] border-[var(--line)]'}`}>
                   {f.scansCompleted?.includes('requirements') ? '✓ REQ' : '○ REQ'}
                 </div>
-                <div className={`flex items-center gap-1 font-mono text-[7px] uppercase font-bold px-1.5 py-0.5 rounded border ${f.scansCompleted?.includes('assumptions') ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-neutral-50 text-neutral-400 border-neutral-200'}`}>
+                <div className={`flex items-center gap-1 font-mono text-[7px] uppercase font-bold px-1.5 py-0.5 rounded border ${f.scansCompleted?.includes('assumptions') ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-[var(--muted-bg)] text-[var(--muted)] border-[var(--line)]'}`}>
                   {f.scansCompleted?.includes('assumptions') ? '✓ ASM' : '○ ASM'}
                 </div>
-                <div className={`flex items-center gap-1 font-mono text-[7px] uppercase font-bold px-1.5 py-0.5 rounded border ${f.scansCompleted?.includes('risks') ? 'bg-red-50 text-red-700 border-red-200' : 'bg-neutral-50 text-neutral-400 border-neutral-200'}`}>
+                <div className={`flex items-center gap-1 font-mono text-[7px] uppercase font-bold px-1.5 py-0.5 rounded border ${f.scansCompleted?.includes('risks') ? 'bg-red-500/20 text-red-400 border-red-500/30' : 'bg-[var(--muted-bg)] text-[var(--muted)] border-[var(--line)]'}`}>
                   {f.scansCompleted?.includes('risks') ? '✓ RSK' : '○ RSK'}
                 </div>
               </div>
@@ -1571,7 +1583,7 @@ function RegistersManager({
           ))}
           {(!data.files || data.files.length === 0) && Object.keys(uploadProgress).length === 0 && (
             <div 
-              className={`col-span-full border border-neutral-200 rounded-lg border-dashed p-8 flex flex-col items-center justify-center text-center opacity-50 font-mono text-[10px] uppercase ${readOnly ? '' : 'group cursor-pointer transition-colors hover:bg-neutral-50'}`} 
+              className={`col-span-full border border-[var(--line)] rounded-2xl border-dashed p-8 flex flex-col items-center justify-center text-center opacity-50 font-mono text-[10px] uppercase ${readOnly ? '' : 'group cursor-pointer transition-colors hover:bg-[var(--muted-bg)]'}`} 
               onClick={() => !readOnly && fileInputRef.current?.click()}
             >
               <Upload size={24} className={`mb-2 ${readOnly ? '' : 'group-hover:-translate-y-1 transition-transform'}`} />
@@ -1582,10 +1594,10 @@ function RegistersManager({
       </section>
 
       {/* Task Workflows Section */}
-      <section className="bg-neutral-100 p-6 border border-neutral-200 rounded-lg border-dashed">
+      <section className="bg-[var(--muted-bg)] p-6 border border-[var(--line)] rounded-2xl border-dashed">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <Workflow size={18} className="text-black" />
+            <Workflow size={18} className="text-[var(--ink)]" />
             <div>
               <h5 className="text-xs font-medium tracking-tight">Active Automation Workflows</h5>
               <p className="font-mono text-[8px] opacity-50 uppercase">System-level intake & exhaustive review threads</p>
@@ -1666,7 +1678,7 @@ function RegistersManager({
           </div>
 
           {tasks.map((task) => (
-            <div key={task.id} className="border border-neutral-200 rounded-lg bg-white p-4 shadow-sm rounded-xl">
+            <div key={task.id} className="bento-card p-4 md:p-6">
               <div className="flex items-center justify-between mb-3 border-b border-black/10 pb-2">
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${task.status === 'COMPLETED' ? 'bg-green-500' : task.status === 'FAILED' ? 'bg-red-500' : 'bg-blue-500 animate-pulse'}`} />
@@ -1885,7 +1897,7 @@ function RegistersManager({
         
         <div className="overflow-x-auto border border-neutral-200 rounded-lg">
           <table className="w-full font-mono text-[10px] text-left">
-            <thead className="bg-slate-900 text-white rounded-lg">
+            <thead className="bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-lg">
               <tr>
                 <th className="p-2 border-r border-white/20">ID</th>
                 <th className="p-2 border-r border-white/20">SOURCE</th>
@@ -1898,11 +1910,11 @@ function RegistersManager({
                 {!readOnly && <th className="p-2 text-center">ACTION</th>}
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/10 text-neutral-800">
+            <tbody className="divide-y divide-white/10 text-[var(--ink)]">
               {(data.requirements || []).filter((req: any) => (reqFilterStatus === 'all' || (req.status || 'pending') === reqFilterStatus) && (reqFilterType === 'all' || (req.type || 'overt') === reqFilterType)).map((req: any, idx: number) => {
                 const isBeingEditedBy = activeEditors && Object.entries(activeEditors).find(([uid, ed]) => uid !== user?.uid && ed.currentStep === `req:${req.id}` && Date.now() - ed.heartbeat < 30000);
                 return (
-                <tr key={req.id || idx} className={`hover:bg-neutral-50 transition-colors ${req.hallucinationFlag ? 'bg-orange-50' : ''} ${req.diffStatus === 'new' ? 'bg-green-50/50 outline outline-1 outline-green-400' : req.diffStatus === 'modified' ? 'bg-amber-50/50 outline outline-1 outline-amber-400' : ''} ${isBeingEditedBy ? 'outline outline-2 outline-blue-500 bg-blue-50/30' : ''}`}>
+                <tr key={req.id || idx} className={`hover:bg-[var(--muted-bg)] transition-colors ${req.hallucinationFlag ? 'bg-orange-500/10' : ''} ${req.diffStatus === 'new' ? 'bg-green-500/10 outline outline-1 outline-green-400' : req.diffStatus === 'modified' ? 'bg-amber-500/10 outline outline-1 outline-amber-400' : ''} ${isBeingEditedBy ? 'outline outline-2 outline-blue-500 bg-blue-500/10' : ''}`}>
                   <td className="p-2 border-r border-black/20 font-bold whitespace-nowrap cursor-pointer hover:underline text-blue-600 relative" onClick={() => { setEditingRequirement(req); if (submissionId) updateActiveEditor(submissionId, `req:${req.id}`); }}>
                     {isBeingEditedBy && (
                       <div className="absolute -top-3 left-0 bg-blue-500 text-white text-[8px] px-1 py-0.5 rounded shadow-sm z-10 font-sans tracking-tighter w-max">
@@ -2077,7 +2089,7 @@ function RegistersManager({
         
         <div className="overflow-x-auto border border-neutral-200 rounded-lg">
           <table className="w-full font-mono text-[10px] text-left">
-            <thead className="bg-slate-900 text-white rounded-lg">
+            <thead className="bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-lg">
               <tr>
                 <th className="p-2 border-r border-white/20">ID</th>
                 <th className="p-2 border-r border-white/20">SOURCE</th>
@@ -2090,9 +2102,9 @@ function RegistersManager({
                 {!readOnly && <th className="p-2"></th>}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-white/10 text-[var(--ink)]">
               {data.assumptions?.map((a, idx) => (
-                <tr key={idx} className={`border-t border-black hover:bg-black/5 ${a.status === 'open' ? 'bg-yellow-100/50' : ''}`}>
+                <tr key={idx} className={`border-t border-[var(--line)] hover:bg-[var(--muted-bg)] ${a.status === 'open' ? 'bg-yellow-500/10' : ''}`}>
                   <td className="p-2 border-r border-black/20 font-bold">
                     {a.id}
                     {a.aiInsight && (
@@ -2294,9 +2306,9 @@ function RegistersManager({
           </div>
         </div>
         
-        <div className="overflow-x-auto border border-neutral-200 rounded-lg">
+        <div className="overflow-x-auto border border-[var(--line)] rounded-2xl bg-[var(--card-bg)]">
           <table className="w-full font-mono text-[10px] text-left">
-            <thead className="bg-slate-900 text-white rounded-lg">
+            <thead className="bg-[var(--nav-bg)] text-[var(--nav-ink)] border-b border-[var(--line)]">
               <tr>
                 <th className="p-2 border-r border-white/20">ID</th>
                 <th className="p-2 border-r border-white/20">RISK TITLE</th>
@@ -2311,9 +2323,9 @@ function RegistersManager({
                 {!readOnly && <th className="p-2"></th>}
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-white/10 text-[var(--ink)]">
               {data.risks?.map((r, idx) => (
-                <tr key={idx} className={`border-t border-black hover:bg-black/5 ${r.impact === 'high' || r.probability === 'high' ? 'bg-red-100/50' : ''}`}>
+                <tr key={idx} className={`border-t border-[var(--line)] hover:bg-[var(--muted-bg)] ${r.impact === 'high' || r.probability === 'high' ? 'bg-red-500/10' : ''}`}>
                   <td className="p-2 border-r border-black/20 font-bold">
                     {r.id}
                     {r.aiProbabilityScore !== undefined && (
@@ -2540,7 +2552,7 @@ function RegistersManager({
         </div>
 
         {data.executiveSummary ? (
-            <div className="bg-white border text-sm p-4 h-[600px] overflow-y-auto w-full">
+            <div className="bg-[var(--card-bg)] border border-[var(--line)] text-[var(--ink)] text-sm p-4 h-[600px] overflow-y-auto w-full font-mono">
                 {readOnly ? (
                   <div className="markdown-body prose max-w-none">
                     <ReactMarkdown>{data.executiveSummary}</ReactMarkdown>
@@ -2613,8 +2625,8 @@ function RegistersManager({
 
       {editingRequirement && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl border border-neutral-200 shadow-sm w-full max-w-2xl flex flex-col max-h-[90vh]">
-            <div className="flex justify-between items-center bg-slate-900 text-white rounded-t-xl p-4 shrink-0">
+            <div className="bg-[var(--card-bg)] rounded-2xl border border-[var(--line)] shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh] overflow-hidden text-[var(--ink)]">
+            <div className="flex justify-between items-center bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-t-xl p-4 shrink-0">
               <div className="font-mono text-sm font-bold uppercase truncate flex items-center gap-2">
                 <Edit2 size={16} /> 
                 Editing Requirement {editingRequirement.id}
@@ -2653,7 +2665,7 @@ function RegistersManager({
                     <button 
                       key={status}
                       onClick={() => setEditingRequirement({...editingRequirement, status})}
-                      className={`font-mono text-[10px] font-bold uppercase w-1/3 py-2 border transition-all ${editingRequirement.status === status ? 'bg-slate-900 border-slate-900 text-white shadow-sm' : 'bg-white text-black border-black/20 hover:border-black/50 hover:bg-neutral-50'}`}
+                      className={`font-mono text-[9px] font-bold uppercase w-1/3 py-2 border transition-all ${editingRequirement.status === status ? 'bg-[var(--accent)] border-[var(--accent)] text-[var(--bg)] shadow-[0_0_10px_var(--accent-glow)]' : 'bg-[var(--card-bg)] text-[var(--muted)] border-[var(--line)] hover:border-[var(--accent)]'}`}
                     >
                       {status}
                     </button>
@@ -2666,7 +2678,7 @@ function RegistersManager({
                 <textarea 
                   value={editingRequirement.text}
                   onChange={(e) => setEditingRequirement({...editingRequirement, text: e.target.value})}
-                  className="w-full h-40 p-3 bg-white border border-black focus:outline-none focus:ring-2 focus:ring-blue-500 font-serif text-sm leading-relaxed rounded-md resize-none shadow-sm"
+                  className="w-full h-40 p-4 bg-[var(--card-bg)] border border-[var(--line)] focus:border-[var(--accent)] text-[var(--ink)] font-mono text-[13px] leading-relaxed rounded-xl resize-none outline-none"
                   placeholder="Enter the full requirement text here..."
                 />
               </div>
@@ -2676,7 +2688,7 @@ function RegistersManager({
             <div className="p-4 border-t border-black/10 flex justify-end gap-3 bg-neutral-50 rounded-b-xl shrink-0">
               <button 
                 onClick={() => setEditingRequirement(null)}
-                className="px-6 py-2 font-mono text-[10px] font-bold uppercase btn text-neutral-600 hover:text-black border border-black/10 hover:border-black transition-all bg-white shadow-sm rounded"
+                className="px-6 py-2 font-mono text-[10px] font-bold uppercase text-[var(--muted)] hover:text-[var(--ink)] border border-[var(--line)] hover:border-[var(--accent)] transition-all bg-[var(--card-bg)] rounded-xl"
               >
                 Cancel
               </button>
@@ -2712,7 +2724,7 @@ function RegistersManager({
                 }
               }
             }}
-            className="bg-slate-900 text-white rounded-lg px-10 py-4 text-xs font-medium tracking-[0.2em] hover:bg-neutral-800 transition-all shadow-sm hover:translate-x-1 hover:translate-y-1 hover:shadow-none flex items-center gap-3"
+            className="bg-[var(--card-bg)] text-[var(--ink)] rounded-lg px-10 py-4 text-xs font-medium tracking-[0.2em] hover:bg-[var(--muted-bg)] transition-all border border-[var(--line)] shadow-sm hover:translate-x-1 hover:translate-y-1 hover:shadow-none flex items-center gap-3"
           >
             <Lock size={16} /> 
             Finalize NGP-002 Register Closure
@@ -2731,7 +2743,7 @@ function RegistersManager({
             <motion.div 
               initial={{ scale: 0.9, y: 40 }}
               animate={{ scale: 1, y: 0 }}
-              className="bg-white rounded-xl border border-neutral-200 rounded-lg w-full max-w-4xl h-[80vh] flex flex-col shadow-sm rounded-xl"
+              className="bg-[var(--card-bg)] rounded-2xl border border-[var(--line)] w-full max-w-4xl h-[80vh] flex flex-col shadow-2xl overflow-hidden"
             >
               <div className="bg-slate-900 text-white rounded-lg p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -2838,7 +2850,7 @@ function RegistersManager({
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              className="bg-white rounded-xl border-2 border-black w-full max-w-5xl h-[85vh] flex flex-col shadow-sm rounded-xl"
+              className="bg-[var(--card-bg)] rounded-3xl border-2 border-[var(--accent)]/50 w-full max-w-5xl h-[85vh] flex flex-col shadow-[0_0_50px_var(--accent-glow)] overflow-hidden"
             >
               <div className="bg-blue-600 text-white p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -2938,7 +2950,7 @@ function VersionHistory({ history }: { history: any[] }) {
         <History size={14} />
         <h5 className="text-xs font-medium tracking-tight">Version & Audit History</h5>
       </div>
-      <div className="border border-neutral-200 rounded-lg bg-white overflow-hidden">
+      <div className="border border-[var(--line)] rounded-xl bg-[var(--card-bg)] overflow-hidden">
         <table className="w-full font-mono text-[9px] text-left">
           <thead className="bg-neutral-100 border-b border-black">
             <tr>
@@ -2985,12 +2997,14 @@ const ELYRIA_QUOTES = [
 
 export default function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [elyriaQuote] = useState(() => ELYRIA_QUOTES[Math.floor(Math.random() * ELYRIA_QUOTES.length)]);
+  const [isFullWidth, setIsFullWidth] = useState(() => localStorage.getItem('isFullWidth') === null ? true : localStorage.getItem('isFullWidth') === 'true');
+  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('isDarkMode') === null ? true : localStorage.getItem('isDarkMode') === 'true');
   const [systemAppName, setSystemAppName] = useState(() => localStorage.getItem('systemAppName') || 'RFx TRUEUP ENGINE');
   const [systemAppDesc, setSystemAppDesc] = useState(() => localStorage.getItem('systemAppDesc') || 'Next-Generation Procurement AI Platform');
   const [maintenanceMode, setMaintenanceMode] = useState(() => localStorage.getItem('maintenanceMode') === 'true');
-  const [isFullWidth, setIsFullWidth] = useState(() => localStorage.getItem('isFullWidth') === 'true');
-  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('isDarkMode') === 'true');
+  const [isGlobalProcessing, setIsGlobalProcessing] = useState(false);
+  const [processingText, setProcessingText] = useState('Processing Matrix Operation...');
+  const [elyriaQuote] = useState(() => ELYRIA_QUOTES[Math.floor(Math.random() * ELYRIA_QUOTES.length)]);
   const [viewingGemContent, setViewingGemContent] = useState<string | null>(null);
   const [editingGemItem, setEditingGemItem] = useState<any | null>(null);
 
@@ -3011,10 +3025,10 @@ export default function App() {
   const [tempAiPacingMs, setTempAiPacingMs] = useState(aiPacingMs.toString());
   
   React.useEffect(() => {
-    if (isDarkMode) {
-       document.documentElement.classList.add('dark');
+    if (!isDarkMode) {
+       document.documentElement.classList.add('light-mode');
     } else {
-       document.documentElement.classList.remove('dark');
+       document.documentElement.classList.remove('light-mode');
     }
     localStorage.setItem('isDarkMode', String(isDarkMode));
   }, [isDarkMode]);
@@ -3818,6 +3832,8 @@ export default function App() {
   const handleQuickIngestBulk = async (title: string, files: File[]) => {
     try {
       setLoading(true);
+      setIsGlobalProcessing(true);
+      setProcessingText(`Starting High-Volume Matrix Ingest [${files.length} Fragments]...`);
       // 1. Create a new submission
       const subId = await createSubmission(title);
       
@@ -3947,11 +3963,20 @@ export default function App() {
       setErrorHeader({ message: "Quick Ingest failed.", details: err.message, nextSteps: "Verify the uploaded file format and your internet connection." });
     } finally {
       setLoading(false);
+      setIsGlobalProcessing(false);
     }
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden selection:bg-black selection:text-white">
+    <div className={`flex flex-col h-screen overflow-hidden selection:bg-black selection:text-white ${isDarkMode ? '' : 'light-mode'}`}>
+      {isGlobalProcessing && (
+        <motion.div 
+          initial={{ scaleX: 0 }} 
+          animate={{ scaleX: 1 }} 
+          transition={{ duration: 15, ease: "linear" }}
+          className="global-progress-bar" 
+        />
+      )}
       {/* Header */}
       <header className="border-b border-[var(--line)] flex items-center justify-between px-6 py-4 bg-[var(--card-bg)] z-10 shrink-0 shadow-lg">
         <div className="flex items-center gap-4">
@@ -3965,21 +3990,24 @@ export default function App() {
             <Cpu className="text-[var(--bg)] w-6 h-6" />
           </div>
           <div>
-            <h1 className="font-sans text-xl font-bold tracking-tight uppercase text-[var(--ink)]">{systemAppName}</h1>
-            <p className="font-mono text-[10px] text-[var(--accent)] opacity-70 tracking-widest uppercase">VERSION 9.0.0 // NGP-002 ENFORCED</p>
+            <h1 className="font-sans text-sm md:text-xl font-bold tracking-tight uppercase text-[var(--ink)]">{systemAppName}</h1>
           </div>
         </div>
         <div className="flex items-center gap-6 font-mono text-xs">
-          <div className="flex items-center gap-4 text-[var(--ink)]">
+          <div className="flex items-center gap-2 md:gap-4 text-[var(--ink)]">
             <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center hover:bg-white/5 transition-colors">
-              <Moon size={14} className="opacity-70" />
+              {isDarkMode ? <Moon size={14} className="opacity-70 text-[var(--accent)]" /> : <Sun size={14} className="opacity-70" />}
             </button>
-            <button onClick={() => setIsFullWidth(!isFullWidth)} className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center hover:bg-white/5 transition-colors">
-              <Maximize size={14} className="opacity-70" />
+            <button 
+              onClick={() => setIsFullWidth(!isFullWidth)} 
+              className={`w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center transition-all ${isFullWidth ? 'bg-[var(--accent)] text-[var(--bg)] border-[var(--accent)] shadow-[0_0_10px_var(--accent-glow)]' : 'text-[var(--muted)] hover:bg-white/5'}`}
+              title={isFullWidth ? "Standard View" : "Full Width View"}
+            >
+              {isFullWidth ? <Minimize size={14} /> : <Maximize size={14} />}
             </button>
-            <button onClick={() => editingId ? setSharingId(editingId) : alert('Please select a submission to share first.')} className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all font-mono text-[10px] font-bold">
+            <button onClick={() => editingId ? setSharingId(editingId) : alert('Please select a submission to share first.')} className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all font-mono text-[9px] md:text-[10px] font-bold">
               <Share2 size={12} />
-              SHARE
+              <span className="hidden md:inline">SHARE</span>
             </button>
 </div>
           {user ? (
@@ -4064,92 +4092,95 @@ export default function App() {
             )}
             
             {/* Sidebar Nav */}
-            <nav className={`fixed inset-y-0 left-0 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 w-64 border-r border-[var(--line)] flex flex-col bg-[var(--card-bg)] shrink-0 z-50 md:z-auto transition-transform duration-200 ease-in-out`}>
-              <div className="flex md:hidden justify-end p-4 border-b border-[var(--line)]">
-                <button onClick={() => setIsNavOpen(false)} className="hover:bg-white/5 p-2 rounded-lg text-[var(--muted)]">
+            <nav className={`fixed inset-y-0 left-0 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 w-64 border-r border-[var(--nav-line)] flex flex-col bg-[var(--nav-bg)] text-[var(--nav-ink)] shrink-0 z-50 md:z-auto transition-transform duration-200 ease-in-out circuit-pattern`}>
+              <div className="flex md:hidden justify-end p-4 border-b border-[var(--nav-line)]">
+                <button 
+                  onClick={() => setIsNavOpen(false)} 
+                  className="hover:bg-[var(--muted-bg)] p-2 rounded-lg text-[var(--muted)]"
+                >
                   <X size={20} />
                 </button>
               </div>
               
-              <div className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+              <div className="flex-1 py-6 px-4 space-y-3 overflow-y-auto">
                 <button 
                   onClick={() => { setActiveTab('analytics'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'analytics' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'analytics' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <BarChart3 size={18} />
-                  <span className="font-sans text-sm font-medium">Pursuit Dashboard</span>
+                  <BarChart3 size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Pursuit Dashboard</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('status'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'status' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'status' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <ShieldCheck size={18} />
-                  <span className="font-sans text-sm font-medium">Control Center</span>
+                  <ShieldCheck size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Control Center</span>
                 </button>
                 {(userProfile?.role === 'ADMIN' || userProfile?.role === 'OWNER') && (
                   <button 
                     onClick={() => { setActiveTab('manifest'); setIsNavOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'manifest' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'manifest' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                   >
-                    <Package size={18} />
-                    <span className="font-sans text-sm font-medium">Manifest Archive</span>
+                    <Package size={16} className="md:size-[18]" />
+                    <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Manifest Archive</span>
                   </button>
                 )}
                 {(userProfile?.role === 'EDITOR' || userProfile?.role === 'ADMIN' || userProfile?.role === 'OWNER') && (
                   <button 
                     onClick={() => { setActiveTab('orchestration'); setIsNavOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'orchestration' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'orchestration' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                   >
-                    <Workflow size={18} />
-                    <span className="font-sans text-sm font-medium">Orchestration</span>
+                    <Workflow size={16} className="md:size-[18]" />
+                    <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Orchestration</span>
                   </button>
                 )}
                 <button 
                   onClick={() => { setActiveTab('submissions'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'submissions' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'submissions' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <FileText size={18} />
-                  <span className="font-sans text-sm font-medium">Submissions Library</span>
+                  <FileText size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Submissions Library</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('my_queue'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'my_queue' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'my_queue' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <MessageSquare size={18} />
-                  <span className="font-sans text-sm font-medium">My Queue</span>
+                  <LayoutGrid size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">My Queue</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('communications'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'communications' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'communications' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <Mails size={18} />
-                  <span className="font-sans text-sm font-medium">Inbox & Comms</span>
+                  <Mails size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Inbox & Comms</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('chat'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'chat' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'chat' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <MessageSquare size={18} />
-                  <span className="font-sans text-sm font-medium">AI Intelligence</span>
+                  <Bot size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">AI Intelligence</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('templates'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'templates' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'templates' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <Copy size={18} />
-                  <span className="font-sans text-sm font-medium">Template Matrix</span>
+                  <Copy size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Template Matrix</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('ragExplorer'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'ragExplorer' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 md:py-3 rounded-[12px] md:rounded-[16px] text-left transition-all btn-energize ${activeTab === 'ragExplorer' ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-2 border-[var(--accent)] shadow-[0_0_15px_var(--accent)]' : 'text-[var(--muted)] border border-transparent hover:border-[var(--accent)]/50 hover:bg-[var(--muted-bg)] hover:text-[var(--nav-ink)]'}`}
                 >
-                  <Database size={18} />
-                  <span className="font-sans text-sm font-medium">Knowledge Base</span>
+                  <Database size={16} className="md:size-[18]" />
+                  <span className="font-sans text-[11px] md:text-sm font-bold uppercase tracking-wider">Knowledge Base</span>
                 </button>
               </div>
           
-              <div className="p-4 mt-auto shrink-0 border-t border-[var(--line)]">
-                <div className="bg-[var(--line)] text-[var(--ink)] rounded-[20px] p-5 border border-white/5 shadow-lg relative overflow-hidden">
+              <div className="p-4 mt-auto shrink-0 border-t border-[var(--nav-line)]">
+                <div className="bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-[20px] p-5 border border-[var(--nav-line)] shadow-lg relative overflow-hidden">
                   <div className="absolute -top-6 -right-6 text-[var(--accent)] opacity-10 rotate-12 pointer-events-none">
                      <Cpu size={100} />
                   </div>
@@ -4157,7 +4188,7 @@ export default function App() {
                     <User size={14} className="text-[var(--accent)]" />
                     <span className="font-sans text-xs font-semibold tracking-wide uppercase text-[var(--accent)] opacity-70">Elyria Assistant</span>
                   </div>
-                  <p className="font-serif text-sm italic leading-relaxed text-[var(--ink)] opacity-90 relative z-10">
+                  <p className="font-serif text-sm italic leading-relaxed text-[var(--nav-ink)] opacity-90 relative z-10">
                     "{elyriaQuote}"
                   </p>
                 </div>
@@ -4167,6 +4198,21 @@ export default function App() {
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto bg-transparent relative">
+          <AnimatePresence>
+            {isGlobalProcessing && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-[var(--bg)]/80 backdrop-blur-sm z-[99] flex flex-col items-center justify-center p-8 text-center"
+              >
+                <div className="w-16 h-16 border-t-4 border-l-4 border-[var(--accent)] rounded-full animate-spin mb-6" />
+                <h3 className="font-mono text-lg font-bold uppercase tracking-[0.2em] text-[var(--ink)] animate-pulse">{processingText}</h3>
+                <p className="text-[var(--muted)] font-mono text-[10px] mt-2 uppercase tracking-tighter">NGP-002 Orchestrator is active & enforcing policy</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <AnimatePresence mode="wait">
             {activeTab === 'analytics' && (
               <motion.div 
@@ -4174,12 +4220,12 @@ export default function App() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className={`p-8 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto`}
+                className={`p-4 md:p-8 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto overflow-x-hidden`}
               >
-                <div className="flex justify-between items-center mb-8 border-b border-[var(--line)] pb-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 border-b border-[var(--line)] pb-4 gap-4">
                    <div className="flex items-center gap-3 text-[var(--ink)]">
                      <BarChart3 size={24} className="text-[var(--accent)]" />
-                     <h2 className="text-2xl font-semibold tracking-tight tracking-tighter">Pursuit & Capture Dashboard</h2>
+                     <h2 className="text-xl md:text-2xl font-semibold tracking-tight tracking-tighter">Pursuit & Capture Dashboard</h2>
                    </div>
                    <div className="flex items-center gap-3">
                      <button onClick={() => { setIsQuickIngestModalOpen(true); }} className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-[var(--bg)] bg-[var(--accent)] rounded hover:opacity-90 transition-all shadow-lg cursor-pointer flex items-center gap-2">
@@ -4198,40 +4244,40 @@ export default function App() {
                          document.body.removeChild(a);
                          URL.revokeObjectURL(url);
                        }}
-                       className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-[var(--ink)] bg-transparent border border-[var(--line)] rounded hover:bg-white/5 transition-colors hidden md:block"
+                       className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-[var(--ink)] bg-transparent border border-[var(--line)] rounded hover:bg-[var(--muted-bg)] transition-colors hidden md:block"
                      >
                        Export Report
                      </button>
                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                  <div className="bento-card text-center flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Active Pursuits</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-[var(--ink)] mt-2">12</p>
-                    <p className="text-xs text-[var(--accent)] mt-2">↑ 3 this week</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                  <div className="bento-card text-center flex flex-col justify-center p-4">
+                    <p className="text-[9px] md:text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Active Pursuits</p>
+                    <p className="text-2xl md:text-4xl font-sans font-bold tracking-tighter text-[var(--ink)] mt-2">12</p>
+                    <p className="text-[10px] text-[var(--accent)] mt-1">↑ 3 this week</p>
                   </div>
-                  <div className="bento-card text-center flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Global Win Rate</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-[var(--ink)] mt-2">68%</p>
-                    <p className="text-xs text-[var(--accent)] mt-2">↑ 4% this quarter</p>
+                  <div className="bento-card text-center flex flex-col justify-center p-4">
+                    <p className="text-[9px] md:text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Global Win Rate</p>
+                    <p className="text-2xl md:text-4xl font-sans font-bold tracking-tighter text-[var(--ink)] mt-2">68%</p>
+                    <p className="text-[10px] text-[var(--accent)] mt-1">↑ 4% this quarter</p>
                   </div>
-                  <div className="bento-card text-center flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Critical Risks Detected</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-red-500 mt-2">34</p>
-                    <p className="text-xs text-red-400 mt-2">Requires immediate mitigation</p>
+                  <div className="bento-card text-center flex flex-col justify-center p-4">
+                    <p className="text-[9px] md:text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Risks Detected</p>
+                    <p className="text-2xl md:text-4xl font-sans font-bold tracking-tighter text-red-500 mt-2">34</p>
+                    <p className="text-[10px] text-red-400 mt-1">Immediate action</p>
                   </div>
-                  <div className="bento-card text-center flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">AI Confidence Score</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-blue-400 mt-2">92%</p>
-                    <p className="text-xs text-[var(--muted)] mt-2">Across generated outputs</p>
+                  <div className="bento-card text-center flex flex-col justify-center p-4">
+                    <p className="text-[9px] md:text-[10px] font-mono font-bold uppercase text-[var(--muted)]">AI Confidence</p>
+                    <p className="text-2xl md:text-4xl font-sans font-bold tracking-tighter text-blue-400 mt-2">92%</p>
+                    <p className="text-[10px] text-[var(--muted)] mt-1">Performance avg</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                    <div className="bento-card">
-                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">Risk Distribution by RFx Stage</h3>
-                      <div className="h-[250px]">
+                      <h3 className="font-sans font-bold text-xs md:text-sm mb-4 text-[var(--ink)] opacity-80 uppercase tracking-wider">Risk Distribution by RFx Stage</h3>
+                      <div className="h-[180px] md:h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={[
                               { name: 'Initial Review', legal: 12, technical: 8, commercial: 5 },
@@ -4240,10 +4286,10 @@ export default function App() {
                               { name: 'Final Approval', legal: 8, technical: 2, commercial: 18 }
                             ]}>
                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--line)" />
-                               <XAxis dataKey="name" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
-                               <YAxis tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
-                               <RechartsTooltip contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
-                               <Legend wrapperStyle={{fontSize: '10px'}} />
+                               <XAxis dataKey="name" tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <RechartsTooltip contentStyle={{fontSize: '10px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
+                               <Legend wrapperStyle={{fontSize: '9px'}} />
                                <Bar dataKey="legal" name="Legal" stackId="a" fill="#ef4444" radius={[0, 0, 4, 4]} />
                                <Bar dataKey="technical" name="Technical" stackId="a" fill="#3b82f6" />
                                <Bar dataKey="commercial" name="Commercial" stackId="a" fill="#f59e0b" radius={[4, 4, 0, 0]} />
@@ -4253,8 +4299,8 @@ export default function App() {
                    </div>
 
                    <div className="bento-card">
-                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">Win Rates by Sector</h3>
-                      <div className="h-[250px]">
+                      <h3 className="font-sans font-bold text-xs md:text-sm mb-4 text-[var(--ink)] opacity-80 uppercase tracking-wider">Win Rates by Sector</h3>
+                      <div className="h-[180px] md:h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart layout="vertical" data={[
                               { name: 'Public Sector', rate: 78, fill: '#64ffda' },
@@ -4264,9 +4310,9 @@ export default function App() {
                               { name: 'Retail', rate: 41, fill: '#f59e0b' }
                             ]}>
                                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--line)" />
-                               <XAxis type="number" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
-                               <YAxis dataKey="name" type="category" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} width={80} />
-                               <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
+                               <XAxis type="number" tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis dataKey="name" type="category" tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} width={80} />
+                               <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{fontSize: '10px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
                                <Bar dataKey="rate" name="Win Rate %" radius={[0, 4, 4, 0]}>
                                  {[
                                    { name: 'Public Sector', rate: 78, fill: '#64ffda' },
@@ -4286,8 +4332,8 @@ export default function App() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div className="bento-card">
-                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">AI Confidence Score Trends</h3>
-                      <div className="h-[250px]">
+                      <h3 className="font-sans font-bold text-xs md:text-sm mb-4 text-[var(--ink)] opacity-80 uppercase tracking-wider">AI Confidence Score Trends</h3>
+                      <div className="h-[180px] md:h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={[
                               { name: 'Jan', score: 78 },
@@ -4304,9 +4350,9 @@ export default function App() {
                                   </linearGradient>
                                </defs>
                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--line)" />
-                               <XAxis dataKey="name" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
-                               <YAxis tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} domain={[60, 100]} />
-                               <RechartsTooltip contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
+                               <XAxis dataKey="name" tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} domain={[60, 100]} />
+                               <RechartsTooltip contentStyle={{fontSize: '10px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
                                <Area type="monotone" dataKey="score" stroke="var(--accent)" strokeWidth={2} fillOpacity={1} fill="url(#colorScore)" />
                             </AreaChart>
                          </ResponsiveContainer>
@@ -4314,8 +4360,8 @@ export default function App() {
                    </div>
 
                    <div className="bento-card">
-                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">Processing Bottlenecks (Avg Days)</h3>
-                      <div className="h-[250px]">
+                      <h3 className="font-sans font-bold text-xs md:text-sm mb-4 text-[var(--ink)] opacity-80 uppercase tracking-wider">Processing Bottlenecks (Avg Days)</h3>
+                      <div className="h-[180px] md:h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={[
                               { name: 'Intake', days: 1.5 },
@@ -4325,9 +4371,9 @@ export default function App() {
                               { name: 'Final Review', days: 2.3 }
                             ]}>
                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--line)" />
-                               <XAxis dataKey="name" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
-                               <YAxis tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
-                               <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
+                               <XAxis dataKey="name" tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis tick={{fontSize: 9, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{fontSize: '10px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
                                <Bar dataKey="days" name="Avg Days in Stage" fill="#f43f5e" radius={[4, 4, 0, 0]} />
                             </BarChart>
                          </ResponsiveContainer>
@@ -4344,39 +4390,38 @@ export default function App() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className={`p-6 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto w-full`}
+                className={`p-4 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto w-full`}
               >
-                <div className="mb-8 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[var(--card-bg)] border border-[var(--accent)] text-[var(--accent)] flex items-center justify-center shadow-[0_0_15px_rgba(100,255,218,0.2)]">
-                    <Cpu size={18} />
+                <div className="mb-6 md:mb-8 flex items-center gap-3">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-[var(--card-bg)] border border-[var(--accent)] text-[var(--accent)] flex items-center justify-center shadow-[0_0_15px_rgba(100,255,218,0.2)]">
+                    <Cpu size={16} className="md:size-[18]" />
                   </div>
-                  <h2 className="text-2xl font-bold tracking-tight text-[var(--ink)] font-sans uppercase">Control Center</h2>
+                  <h2 className="text-xl md:text-2xl font-bold tracking-tight text-[var(--ink)] font-sans uppercase">Control Center</h2>
                 </div>
 
                 <div className="bento-grid !p-0">
 
                   {/* 1. Quick RFx Ingest */}
-                  <div className="col-span-1 md:col-span-12 lg:col-span-8 bento-card !bg-[var(--accent)] !text-[var(--bg)] flex flex-col justify-between shadow-xl">
+                  <div className="col-span-1 md:col-span-12 lg:col-span-8 bento-card !bg-[var(--accent)] !text-[var(--bg)] flex flex-col justify-between shadow-xl p-4 md:p-6 overflow-hidden">
                     <div className="absolute -top-12 -right-12 p-12 opacity-10 pointer-events-none transform rotate-12">
-                      <Upload size={200} />
+                      <Upload size={140} className="md:size-[200]" />
                     </div>
-                    <div className="z-10 flex-col md:flex-row md:items-center flex justify-between gap-6 h-full">
+                    <div className="z-10 flex-col md:flex-row md:items-center flex justify-between gap-4 h-full">
                       <div>
-                        <h2 className="font-sans text-2xl font-bold tracking-tight mb-2 flex items-center gap-3">
-                          <Upload size={24} /> Quick RFx Ingest
+                        <h2 className="font-sans text-xl md:text-2xl font-bold tracking-tight mb-2 flex items-center gap-3">
+                          <Upload size={20} className="md:size-6" /> Ingest Engine
                         </h2>
-                        <p className="font-mono text-xs opacity-70 max-w-lg leading-relaxed">
-                          Upload your RFP/RFI documentation for immediate AI evaluation. 
-                          NGP-002 Orchestrator will automatically extract requirements, identify risks, and calculate your target score.
+                        <p className="font-mono text-[10px] md:text-xs opacity-70 max-w-lg leading-relaxed">
+                          NGP-002 Orchestrator automates requirements extraction and risk evaluation.
                         </p>
                       </div>
-                      <div className="z-10 w-full md:w-auto shrink-0 flex items-center h-full">
+                      <div className="z-10 w-full md:w-auto shrink-0 flex items-center">
                         <button 
                           onClick={() => setIsQuickIngestModalOpen(true)}
-                          className="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-[var(--bg)] text-[var(--accent)] rounded-full px-8 py-3 font-sans font-bold text-sm transition-transform cursor-pointer hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                          className="w-full md:w-auto inline-flex items-center justify-center gap-2 bg-[var(--bg)] text-[var(--accent)] rounded-full px-6 py-2 md:px-8 md:py-3 font-sans font-bold text-xs transition-transform cursor-pointer hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                         >
-                          <PlusCircle size={20} />
-                          <span>Analyze New RFP</span>
+                          <PlusCircle size={16} />
+                          <span>NEW RFx</span>
                         </button>
                       </div>
                     </div>
@@ -4440,7 +4485,7 @@ export default function App() {
                   {/* 5. Hand-off Path Updates */}
                   <div className="col-span-1 md:col-span-12 lg:col-span-4 bento-card flex flex-col h-[600px]">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 rounded-full bg-[var(--line)] text-[var(--ink)] flex items-center justify-center shrink-0 border border-white/5 shadow-sm">
+                      <div className="w-10 h-10 rounded-full bg-[var(--nav-bg)] text-[var(--nav-ink)] flex items-center justify-center shrink-0 border border-[var(--line)] shadow-sm">
                         <Workflow size={20} />
                       </div>
                       <h4 className="font-sans text-xl font-medium tracking-tight text-[var(--ink)]">v9 Hand-off Updates</h4>
@@ -4470,7 +4515,7 @@ export default function App() {
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="p-8"
+                className={`p-4 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto overflow-x-hidden`}
               >
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-2">
@@ -4551,7 +4596,7 @@ export default function App() {
                     </div>
 
                     {manifestUploadStatus !== 'idle' && (
-                      <div className="mt-6 border border-neutral-200 rounded-lg p-6 bg-white shadow-sm rounded-xl">
+                      <div className="mt-6 border border-[var(--line)] rounded-2xl p-6 bg-[var(--card-bg)] shadow-2xl">
                         {manifestUploadStatus === 'uploading' && (
                           <div className="flex items-center gap-3 text-xs font-medium">
                             <span className="w-3 h-3 rounded-full border-2 border-black border-t-transparent animate-spin" />
@@ -4682,7 +4727,7 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="p-8"
+                className={`p-4 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto overflow-x-hidden`}
               >
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-2">
@@ -4730,9 +4775,9 @@ export default function App() {
 
                   {gemChainLogic.map((step, idx) => (
                     <div key={step.id || idx} className="flex gap-8 group">
-                      <div className="relative z-10 w-12 h-12 bg-white rounded-xl border border-neutral-200 flex items-center justify-center group-hover:bg-slate-900 transition-colors cursor-pointer" onClick={() => setEditingGemItem(step)}>
-                        <Terminal className="group-hover:text-white transition-colors text-slate-900" size={20} />
-                        <div className="absolute -right-2 top-0 bg-white rounded-xl border border-neutral-200 text-[9px] font-bold w-4 h-4 flex items-center justify-center text-slate-900">
+                      <div className="relative z-10 w-12 h-12 bg-[var(--card-bg)] rounded-xl border border-[var(--line)] flex items-center justify-center hover:border-[var(--accent)] group-hover:bg-slate-900 transition-colors cursor-pointer" onClick={() => setEditingGemItem(step)}>
+                        <Terminal className="group-hover:text-[var(--accent)] transition-colors text-[var(--muted)]" size={20} />
+                        <div className="absolute -right-2 top-0 bg-[var(--card-bg)] rounded-xl border border-[var(--accent)] text-[9px] font-bold w-4 h-4 flex items-center justify-center text-[var(--accent)]">
                           {idx + 1}
                         </div>
                       </div>
@@ -4777,8 +4822,8 @@ export default function App() {
 
             {editingGemItem && (
                <div className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4">
-                 <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] text-slate-900 border border-neutral-200">
-                    <div className="p-4 border-b border-neutral-200 flex justify-between items-center bg-slate-900 text-white rounded-t-xl shrink-0">
+                 <div className="bg-[var(--card-bg)] rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] w-full max-w-2xl flex flex-col max-h-[90vh] text-[var(--ink)] border border-[var(--accent)]/30 overflow-hidden">
+                    <div className="p-4 border-b border-[var(--line)] flex justify-between items-center bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-t-xl shrink-0">
                        <h3 className="font-mono font-bold text-sm uppercase flex items-center gap-2">
                          <Terminal size={16} /> 
                          Edit Workflow Step: GEM {editingGemItem.id}
@@ -4875,7 +4920,7 @@ export default function App() {
                         </div>
                     </div>
                     <div className="p-4 border-t border-neutral-200 flex justify-end gap-3 bg-neutral-50 rounded-b-xl shrink-0">
-                       <button onClick={() => setEditingGemItem(null)} className="px-6 py-2 font-mono text-[10px] font-bold uppercase text-slate-600 hover:text-slate-900 border border-neutral-300 hover:border-slate-900 transition-colors rounded bg-white shadow-sm">Cancel</button>
+                       <button onClick={() => setEditingGemItem(null)} className="px-6 py-2 font-mono text-[10px] font-bold uppercase text-[var(--muted)] hover:text-[var(--ink)] border border-[var(--line)] hover:border-[var(--accent)] transition-colors rounded-xl bg-[var(--card-bg)]">Cancel</button>
                        <button onClick={() => {
                            const arr = [...gemChainLogic];
                            const i = arr.findIndex(g => g.id === editingGemItem.id);
@@ -4895,8 +4940,9 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
+                className={`flex-1 shrink-0 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto overflow-x-hidden`}
               >
-                <MyQueue submissions={submissions} userEmail={user?.email} />
+                <MyQueue submissions={submissions} userEmail={user?.email} isFullWidth={isFullWidth} />
               </motion.div>
             )}
 
@@ -4906,12 +4952,13 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="h-full"
+                className={`h-full ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto overflow-x-hidden`}
               >
                 <CommunicationsModule 
                    userEmail={user?.email} 
                    platformIntegrations={platformIntegrations} 
                    onConfigure={() => setActiveTab('configuration')} 
+                   isFullWidth={isFullWidth}
                 />
               </motion.div>
             )}
@@ -4922,7 +4969,7 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className={`p-8 ${isFullWidth ? 'w-full' : 'max-w-5xl'} mx-auto`}
+                className={`p-4 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto overflow-x-hidden`}
               >
                 {!user ? (
                   <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -4964,7 +5011,7 @@ export default function App() {
                     </div>
 
                     {sharedSubmission && (
-                      <div className="mb-8 border-2 border-black bg-white shadow-sm rounded-xl overflow-hidden">
+                      <div className="mb-8 border-2 border-[var(--line)] bg-[var(--card-bg)] shadow-2xl rounded-2xl overflow-hidden">
                         <div className="bg-slate-900 text-white rounded-lg px-6 py-4 flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <ShieldCheck className="text-green-400" />
@@ -5009,6 +5056,8 @@ export default function App() {
                              setViewingFile={setViewingFile}
                              setViewingGemContent={setViewingGemContent}
                              gemChainLogic={gemChainLogic}
+                             setIsGlobalProcessing={setIsGlobalProcessing}
+                             setProcessingText={setProcessingText}
                            />
                         </div>
                       </div>
@@ -5053,7 +5102,7 @@ export default function App() {
                       <motion.div 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
-                        className="mb-8 border border-neutral-200 rounded-lg bg-white p-6 shadow-sm rounded-xl"
+                        className="mb-8 border border-[var(--line)] rounded-2xl bg-[var(--card-bg)] p-6 shadow-2xl"
                       >
                         <h3 className="text-xs font-medium mb-4">Initialize New Submission</h3>
                         <div className="flex gap-4">
@@ -5101,14 +5150,14 @@ export default function App() {
                           (sub.description && sub.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
                           (sub.ownerId && sub.ownerId.toLowerCase().includes(searchQuery.toLowerCase()))
                         ).map((sub) => (
-                          <div key={sub.id} className={`border border-neutral-200 rounded-lg bg-white group hover:shadow-sm rounded-xl transition-all ${selectedIds.includes(sub.id!) ? 'ring-2 ring-black' : ''}`}>
+                          <div key={sub.id} className={`border border-[var(--line)] rounded-2xl bg-[var(--card-bg)] group hover:border-[var(--accent)] transition-all ${selectedIds.includes(sub.id!) ? 'ring-2 ring-[var(--accent)]' : ''}`}>
                             <div className="p-4 flex items-center justify-between gap-4">
                               <div className="flex items-center gap-4 flex-1 min-w-0">
                                 <button 
                                   onClick={() => toggleSelect(sub.id!)}
-                                  className={`w-4 h-4 border border-neutral-200 rounded-lg flex items-center justify-center transition-colors ${selectedIds.includes(sub.id!) ? 'bg-slate-900 text-white rounded-lg' : 'bg-transparent'}`}
+                                  className={`w-4 h-4 border border-[var(--line)] rounded-lg flex items-center justify-center transition-colors ${selectedIds.includes(sub.id!) ? 'bg-[var(--accent)] text-[var(--bg)]' : 'bg-transparent'}`}
                                 >
-                                  {selectedIds.includes(sub.id!) && <div className="w-2 h-2 bg-white" />}
+                                  {selectedIds.includes(sub.id!) && <div className="w-2 h-2 bg-[var(--bg)]" />}
                                 </button>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-3 mb-1">
@@ -5130,7 +5179,7 @@ export default function App() {
                                     >
                                       {sub.title}
                                     </h4>
-                                    <span className={`px-2 py-0.5 text-[9px] font-mono font-bold uppercase ${sub.status === 'submitted' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
+                                    <span className={`px-2 py-0.5 text-[9px] font-mono font-bold uppercase ${sub.status === 'submitted' ? 'bg-green-500/20 text-green-500' : 'bg-[var(--accent)]/20 text-[var(--accent)]'}`}>
                                       {sub.status}
                                     </span>
                                   </div>
@@ -5146,7 +5195,7 @@ export default function App() {
                                     setEditingId(null);
                                     setAutoStartScan(false);
                                   }}
-                                  className={`p-2 transition-colors ${historyId === sub.id ? 'bg-slate-900 text-white rounded-lg' : 'hover:bg-black hover:text-white'}`}
+                                  className={`p-2 transition-colors ${historyId === sub.id ? 'bg-[var(--accent)] text-[var(--bg)] rounded-sm' : 'hover:bg-[var(--accent)]/10'}`}
                                   title="View History"
                                 >
                                   <History size={16} />
@@ -5253,7 +5302,7 @@ export default function App() {
                                     <input 
                                       value={editTitle}
                                       onChange={(e) => setEditTitle(e.target.value)}
-                                      className="w-full border border-neutral-100 rounded-lg px-3 py-2 font-mono text-xs outline-none bg-white focus:border-black transition-colors"
+                                      className="w-full border border-[var(--line)] rounded-xl px-3 py-2 font-mono text-xs outline-none bg-[var(--card-bg)] text-[var(--ink)] focus:border-[var(--accent)] transition-colors"
                                       placeholder="Title"
                                     />
                                   </div>
@@ -5279,6 +5328,8 @@ export default function App() {
                                   setViewingGemContent={setViewingGemContent}
                                   gemChainLogic={gemChainLogic}
                                   activeEditors={sub.activeEditors}
+                                  setIsGlobalProcessing={setIsGlobalProcessing}
+                                  setProcessingText={setProcessingText}
                                 />
 
                                 <div className="flex gap-4 justify-between items-center pt-6 border-t border-black/10">
@@ -5321,6 +5372,8 @@ export default function App() {
                                    setViewingFile={setViewingFile}
                                    setViewingGemContent={setViewingGemContent}
                                    gemChainLogic={gemChainLogic}
+                                   setIsGlobalProcessing={setIsGlobalProcessing}
+                                   setProcessingText={setProcessingText}
                                  />
                                </div>
                             )}
@@ -5397,13 +5450,13 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className={`p-8 ${isFullWidth ? 'w-full' : 'max-w-5xl'} mx-auto h-full flex flex-col`}
+                className={`p-4 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto h-full flex flex-col`}
               >
-                <div className="flex items-center gap-2 mb-8 border-b border-black pb-4">
+                <div className="flex items-center gap-2 mb-8 border-b border-[var(--line)] pb-4">
                   <MessageSquare />
-                  <h2 className="text-2xl font-semibold tracking-tight text-slate-900 tracking-tighter">AI Assistant Chat</h2>
+                  <h2 className="text-xl md:text-2xl font-semibold tracking-tight text-[var(--ink)] tracking-tighter">AI Assistant Chat</h2>
                 </div>
-                <div className="flex-1 overflow-y-auto mb-4 bg-slate-100 p-6 rounded-md border border-neutral-200 rounded-lg space-y-4">
+                <div className="flex-1 overflow-y-auto mb-4 bg-[var(--muted-bg)] p-6 rounded-2xl border border-[var(--line)] space-y-4">
                   {chatMessages.map((msg, i) => (
                     <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                       <div className={`border border-neutral-200 rounded-lg text-black p-4 max-w-[80%] shadow-sm rounded-xl font-mono text-sm leading-relaxed ${
@@ -5453,11 +5506,11 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className={`p-8 ${isFullWidth ? 'w-full' : 'max-w-5xl'} mx-auto h-full flex flex-col`}
+                className={`p-4 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto h-full flex flex-col`}
               >
-                <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
+                <div className="flex justify-between items-end mb-8 border-b border-[var(--line)] pb-4">
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-900 tracking-tighter">
+                    <div className="flex items-center gap-2 text-xl md:text-2xl font-semibold tracking-tight text-[var(--ink)] tracking-tighter">
                       <Copy />
                       {currentFolderPath.map((crumb, idx) => (
                         <React.Fragment key={idx}>
@@ -5515,7 +5568,7 @@ export default function App() {
                 </div>
 
                 {isCreatingFolder && (
-                   <div className="mb-6 p-4 bg-white border border-neutral-200 shadow-sm rounded-xl flex items-center gap-4">
+                   <div className="mb-6 p-4 bg-[var(--card-bg)] border border-[var(--line)] shadow-2xl rounded-2xl flex items-center gap-4">
                       <input 
                         type="text"
                         autoFocus
@@ -5568,7 +5621,7 @@ export default function App() {
                    </div>
                 )}
                 
-                <div className="mb-6 flex flex-col gap-4 bg-white rounded-xl border border-neutral-200 rounded-lg p-4 shadow-sm rounded-xl">
+                <div className="mb-6 flex flex-col gap-4 bg-[var(--card-bg)] rounded-2xl border border-[var(--line)] p-4 shadow-2xl">
                   <div className="flex items-center gap-4">
                     <Filter size={16} className="opacity-50" />
                     <input 
@@ -5635,7 +5688,7 @@ export default function App() {
                     
                     return matchesQuery && matchesType && matchesTime;
                   }).map(template => (
-                    <div key={template.id} className={`border border-neutral-200 bg-white p-4 shadow-sm rounded-xl group hover:border-black transition-colors ${templateViewMode === 'grid' ? 'flex flex-col' : 'flex items-center justify-between'}`}>
+                    <div key={template.id} className={`border border-[var(--line)] bg-[var(--card-bg)] p-4 shadow-2xl rounded-2xl group hover:border-[var(--accent)] transition-colors ${templateViewMode === 'grid' ? 'flex flex-col' : 'flex items-center justify-between'}`}>
                       <div className={`cursor-pointer min-w-0 ${templateViewMode === 'grid' ? 'mb-4' : 'flex-1'}`} onClick={() => {
                         if (template.isFolder && (template.webViewLink || template.driveId)) {
                           const match = template.webViewLink?.match(/folders\/([a-zA-Z0-9-_]+)/);
@@ -5857,7 +5910,7 @@ export default function App() {
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                            {platformIntegrations.filter(i => i.type === 'RAG_SOURCE').map(rag => (
-                              <div key={rag.id} className="bg-white border border-neutral-200 shadow-sm rounded-xl overflow-hidden hover:-translate-y-1 transition-transform">
+                              <div key={rag.id} className="bg-[var(--card-bg)] border border-[var(--line)] shadow-2xl rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform">
                                  <div className="bg-slate-900 text-white p-4 items-center flex gap-3">
                                     <Folder size={18} className="text-[#cdfc42]" />
                                     <h3 className="font-bold font-mono text-sm uppercase truncate">{rag.name}</h3>
@@ -5936,7 +5989,7 @@ export default function App() {
                                 {ragFolderContents.map(item => {
                                     const isFolder = item.mimeType === 'application/vnd.google-apps.folder';
                                     return (
-                                        <div key={item.id} className={`group bg-white shadow-sm hover:border-black transition-colors ${ragViewMode === 'grid' ? 'border border-neutral-200 p-4 rounded-lg flex gap-3' : 'border-b border-neutral-100 p-3 flex items-center justify-between'}`}>
+                                        <div key={item.id} className={`group bg-[var(--card-bg)] shadow-2xl hover:border-[var(--accent)] transition-colors ${ragViewMode === 'grid' ? 'border border-[var(--line)] p-4 rounded-xl flex gap-3' : 'border-b border-[var(--line)] p-3 flex items-center justify-between'}`}>
                                             <div className="flex items-center gap-3 min-w-0 pr-4">
                                                 <div className="shrink-0 mt-1">
                                                     {isFolder ? <Folder size={20} className="text-blue-500 fill-blue-500" /> : <FileText size={20} className="text-slate-500" />}
@@ -6000,17 +6053,17 @@ export default function App() {
               >
                 <div className="flex items-center gap-2 mb-8 border-b border-black pb-4">
                   <Settings size={24} />
-                  <h2 className="text-2xl font-semibold tracking-tight text-slate-900 tracking-tighter">Platform Configuration</h2>
+                  <h2 className="text-2xl font-semibold tracking-tight text-[var(--ink)] tracking-tighter">Platform Configuration</h2>
                 </div>
                 
                 <div className="flex gap-8 max-w-5xl">
                   {/* Left Sidebar options */}
-                  <div className="w-1/4 flex flex-col gap-2 font-mono text-sm border-r border-black/20 pr-4">
+                  <div className="w-1/4 flex flex-col gap-2 font-mono text-sm border-r border-[var(--line)] pr-4">
                     {['general', 'manifest', 'personas', 'users', 'integrations', 'drive', 'rag_sources', 'notifications', ...(user?.email === 'recirc@gmail.com' ? ['system_tasks'] : [])].map((sec) => (
                       <button 
                         key={sec}
                         onClick={() => setConfigSection(sec as any)}
-                        className={`text-left px-4 py-3 uppercase font-bold transition-colors ${configSection === sec ? 'bg-slate-900 text-white rounded-lg' : 'hover:bg-black/5 text-black/60'}`}
+                        className={`text-left px-4 py-3 uppercase font-bold transition-colors ${configSection === sec ? 'bg-[var(--accent)] text-[var(--bg)] rounded-lg' : 'hover:bg-[var(--accent)]/5 text-[var(--ink)] opacity-60'}`}
                       >
                         {sec === 'manifest' ? 'Project Files / Manifest' : sec === 'users' ? 'User Management' : sec === 'system_tasks' ? 'System Roadmap' : sec === 'drive' ? 'Storage & Drive' : sec === 'rag_sources' ? 'Past Proposal RAG' : sec === 'personas' ? 'Expert Personas' : sec === 'notifications' ? 'Alerts & Notifications' : sec}
                       </button>
@@ -6022,19 +6075,19 @@ export default function App() {
                     {configSection === 'general' && (
                       <div className="space-y-6">
                         <h3 className="text-lg font-bold uppercase text-green-600 mb-6 bg-black p-2 inline-block px-4 shadow-sm rounded-xl">General Settings</h3>
-                        <div className="space-y-6 bg-white rounded-xl border border-neutral-200 rounded-lg p-6 shadow-sm rounded-xl">
+                        <div className="space-y-6 bg-[var(--card-bg)] rounded-3xl border border-[var(--line)] p-6 shadow-2xl">
                           <div>
                             <label className="block text-[10px] font-bold uppercase opacity-60 mb-1">AI Pacing & Rate Limit Delay (Ms)</label>
-                            <input type="number" value={tempAiPacingMs} onChange={e => setTempAiPacingMs(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2 bg-white outline-none focus:ring-1 ring-black" />
+                            <input type="number" value={tempAiPacingMs} onChange={e => setTempAiPacingMs(e.target.value)} className="w-full border border-[var(--line)] rounded-lg p-2 bg-[var(--nav-bg)] text-[var(--ink)] outline-none focus:ring-1 ring-[var(--accent)]" />
                             <p className="text-[10px] opacity-60 mt-2">Adjust delay between AI requests to prevent quota exhaustion.</p>
                           </div>
                           <div>
                             <label className="block text-[10px] font-bold uppercase opacity-60 mb-1">Application Name</label>
-                            <input type="text" value={tempAppName} onChange={e => setTempAppName(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2 bg-white outline-none focus:ring-1 ring-black" />
+                            <input type="text" value={tempAppName} onChange={e => setTempAppName(e.target.value)} className="w-full border border-[var(--line)] rounded-lg p-2 bg-[var(--nav-bg)] text-[var(--ink)] outline-none focus:ring-1 ring-[var(--accent)]" />
                           </div>
                           <div>
                             <label className="block text-[10px] font-bold uppercase opacity-60 mb-1">Platform Description</label>
-                            <textarea value={tempAppDesc} onChange={e => setTempAppDesc(e.target.value)} className="w-full border border-neutral-200 rounded-lg p-2 bg-white h-24 outline-none focus:ring-1 ring-black" />
+                            <textarea value={tempAppDesc} onChange={e => setTempAppDesc(e.target.value)} className="w-full border border-[var(--line)] rounded-lg p-2 bg-[var(--nav-bg)] text-[var(--ink)] h-24 outline-none focus:ring-1 ring-[var(--accent)]" />
                           </div>
                           <div className="pt-4 border-t border-black/10">
                             <label className="block text-[10px] font-bold uppercase opacity-60 mb-1">Maintenance Mode</label>
@@ -6054,19 +6107,19 @@ export default function App() {
                             localStorage.setItem('maintenanceMode', String(tempMaintenance));
                             document.title = tempAppName;
                             alert("Settings updated successfully.");
-                          }} className="bg-slate-900 text-white rounded-lg px-6 py-3 text-xs font-bold uppercase hover:bg-neutral-800 transition-colors w-full sm:w-auto text-center shadow-sm rounded-xl active:shadow-sm  ">Save Changes</button>
+                          }} className="bg-[var(--accent)] text-[var(--bg)] rounded-lg px-6 py-3 text-xs font-bold uppercase hover:opacity-90 transition-colors w-full sm:w-auto text-center shadow-lg rounded-xl active:shadow-sm">Save Changes</button>
                         </div>
                       </div>
                     )}
                     {configSection === 'manifest' && (
                       <div className="space-y-6">
-                        <h3 className="text-lg font-bold uppercase text-green-600 mb-6 bg-black p-2 inline-block px-4 shadow-sm rounded-xl">Project / Manifest Files</h3>
-                        <div className="bg-white rounded-xl border border-neutral-200 rounded-lg p-6 shadow-sm rounded-xl">
-                          <p className="text-sm opacity-80 mb-6">Manage baseline project logic and manifest blueprints. The manifest defines everything about the platform's constraints and features.</p>
+                        <h3 className="text-lg font-bold uppercase text-[var(--accent)] mb-6 bg-[var(--card-bg)] p-2 inline-block px-4 shadow-sm rounded-xl">Project / Manifest Files</h3>
+                        <div className="bg-[var(--card-bg)] rounded-xl border border-[var(--line)] p-6 shadow-sm">
+                          <p className="text-sm opacity-80 mb-6 text-[var(--ink)]">Manage baseline project logic and manifest blueprints. The manifest defines everything about the platform's constraints and features.</p>
                           <button 
                             onClick={exportManifestAsZip}
                             disabled={isExportingZip}
-                            className="bg-slate-900 text-white px-4 py-3 text-xs font-medium flex items-center gap-2 hover:bg-neutral-800 active:shadow-sm disabled:opacity-50 disabled:translate-y-0 disabled:translate-x-0 rounded-md shadow-sm"
+                            className="bg-[var(--accent)] text-[var(--bg)] px-4 py-3 text-xs font-bold uppercase flex items-center gap-2 hover:opacity-90 active:shadow-sm disabled:opacity-50 rounded-md shadow-sm"
                           >
                             <Download size={14} /> {isExportingZip ? 'Packaging ZIP Archive...' : 'Export Complete Project Manifest'}
                           </button>
@@ -6075,22 +6128,22 @@ export default function App() {
                     )}
                     {configSection === 'users' && (
                        <div className="space-y-6">
-                         <div className="flex justify-between items-center bg-black p-2 px-4 shadow-sm rounded-xl text-white w-fit mb-6">
-                           <h3 className="text-lg font-bold uppercase text-green-400">User Management & RBAC</h3>
+                         <div className="flex justify-between items-center bg-[var(--card-bg)] p-2 px-4 shadow-sm rounded-xl text-[var(--ink)] w-fit mb-6 border border-[var(--line)]">
+                           <h3 className="text-lg font-bold uppercase text-[var(--accent)]">User Management & RBAC</h3>
                          </div>
                          
-                         <div className="bg-white rounded-xl border border-neutral-200 rounded-lg p-6 shadow-sm rounded-xl">
-                           <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
-                             <h4 className="font-bold text-sm uppercase">Invite Member</h4>
+                         <div className="bg-[var(--card-bg)] rounded-xl border border-[var(--line)] p-6 shadow-sm">
+                           <div className="flex justify-between items-center border-b border-[var(--line)] pb-4 mb-4">
+                             <h4 className="font-bold text-sm uppercase text-[var(--ink)]">Invite Member</h4>
                            </div>
                            <div className="flex gap-4">
                              <input 
                                type="email" 
                                id="invite-email"
                                placeholder="Email Address..." 
-                               className="flex-1 border border-neutral-200 rounded-lg p-2 font-mono text-xs outline-none" 
+                               className="flex-1 border border-[var(--line)] rounded-lg p-2 font-mono text-xs outline-none bg-[var(--bg)] text-[var(--ink)]" 
                              />
-                             <select id="invite-role" className="border border-neutral-200 rounded-lg p-2 font-mono text-xs outline-none">
+                             <select id="invite-role" className="border border-[var(--line)] rounded-lg p-2 font-mono text-xs outline-none bg-[var(--bg)] text-[var(--ink)]">
                                <option value="VIEWER">VIEWER</option>
                                <option value="EDITOR">EDITOR</option>
                                <option value="ADMIN">ADMIN</option>
@@ -6119,7 +6172,7 @@ export default function App() {
                            </div>
                          </div>
 
-                         <div className="bg-white rounded-xl border border-neutral-200 rounded-lg shadow-sm rounded-xl">
+                         <div className="bg-[var(--card-bg)] border border-[var(--line)] shadow-2xl rounded-3xl">
                            <div className="p-4 border-b border-black">
                              <h4 className="font-bold text-sm uppercase">Active Directory</h4>
                            </div>
@@ -6174,11 +6227,11 @@ export default function App() {
                          </div>
                          
                          <div className="grid grid-cols-2 gap-6">
-                           <div className="bg-white rounded-xl border border-neutral-200 rounded-lg p-6 shadow-sm rounded-xl">
-                              <div className="flex justify-between border-b border-black pb-4 mb-4">
-                               <h4 className="font-bold text-sm uppercase">Webhooks</h4>
+                           <div className="bg-[var(--card-bg)] rounded-xl border border-[var(--line)] p-6 shadow-sm">
+                              <div className="flex justify-between border-b border-[var(--line)] pb-4 mb-4">
+                               <h4 className="font-bold text-sm uppercase text-[var(--ink)]">Webhooks</h4>
                                <button 
-                                 className="text-[10px] underline hover:text-black opacity-60 rounded-md shadow-sm"
+                                 className="text-[10px] underline hover:text-[var(--accent)] opacity-60 text-[var(--ink)]"
                                  onClick={() => {
                                    const name = prompt('Enter a name for the Webhook:');
                                    if (!name) return;
@@ -6201,12 +6254,12 @@ export default function App() {
                              </div>
                              <div className="space-y-4">
                                {platformIntegrations.filter(i => i.type === 'WEBHOOK').map(w => (
-                                 <div key={w.id} className="flex justify-between items-center border border-neutral-100 rounded-lg p-3">
+                                 <div key={w.id} className="flex justify-between items-center border border-[var(--line)] bg-[var(--bg)] rounded-lg p-3">
                                    <div>
-                                     <div className="text-xs font-bold font-mono">{w.name}</div>
-                                     <div className="text-[9px] font-mono opacity-60">{w.config?.url}</div>
+                                     <div className="text-xs font-bold font-mono text-[var(--ink)]">{w.name}</div>
+                                     <div className="text-[9px] font-mono opacity-60 text-[var(--muted)]">{w.config?.url}</div>
                                    </div>
-                                   <span className={`text-[10px] font-bold ${w.status === 'ACTIVE' ? 'text-green-600' : 'text-red-500'}`}>{w.status === 'ACTIVE' ? '200 OK' : 'INACTIVE'}</span>
+                                   <span className={`text-[10px] font-bold ${w.status === 'ACTIVE' ? 'text-[var(--accent)]' : 'text-red-500'}`}>{w.status === 'ACTIVE' ? '200 OK' : 'INACTIVE'}</span>
                                  </div>
                                ))}
                                {platformIntegrations.filter(i => i.type === 'WEBHOOK').length === 0 && (
@@ -6215,22 +6268,22 @@ export default function App() {
                              </div>
                            </div>
                            
-                           <div className="bg-white rounded-xl border border-neutral-200 rounded-lg p-6 shadow-sm rounded-xl">
-                             <div className="flex justify-between border-b border-black pb-4 mb-4">
-                               <h4 className="font-bold text-sm uppercase">External Services</h4>
+                           <div className="bg-[var(--card-bg)] rounded-xl border border-[var(--line)] p-6 shadow-sm">
+                             <div className="flex justify-between border-b border-[var(--line)] pb-4 mb-4">
+                               <h4 className="font-bold text-sm uppercase text-[var(--ink)]">External Services</h4>
                              </div>
                              <div className="space-y-4">
-                               <div className="flex flex-col gap-2 p-3 border border-neutral-200 rounded-md">
+                               <div className="flex flex-col gap-2 p-3 border border-[var(--line)] bg-[var(--bg)] rounded-md">
                                  <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                    <span className="text-xs font-mono font-bold flex items-center gap-2">
+                                    <span className="text-xs font-mono font-bold flex items-center gap-2 text-[var(--ink)]">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.8 1.45 5.3 3.73 7C5 19.83 3.5 21 3.5 21s1.39-.12 3.86-1.07c1.47.46 3.03.71 4.64.71 5.52 0 10-4.03 10-9S17.52 2 12 2z" fill="#00832d"/></svg>
                                         Google Chat Notify
                                     </span>
                                     <button onClick={() => setShowGchatSimulator(true)} className="px-2 py-0.5 ml-2 text-[9px] bg-green-700 text-white font-bold rounded hover:bg-green-800">SIMULATOR</button>
                                     </div>
                                     <button 
-                                      className={`px-3 py-1 text-[9px] uppercase font-bold text-center border rounded-md ${platformIntegrations.some(i => i.type === 'SERVICE' && i.name === 'GoogleChat') ? 'bg-green-100 text-green-800 border-green-300' : 'bg-neutral-100 text-neutral-600'}`}
+                                      className={`px-3 py-1 text-[9px] uppercase font-bold text-center border rounded-md transition-colors ${platformIntegrations.some(i => i.type === 'SERVICE' && i.name === 'GoogleChat') ? 'bg-[var(--accent)] text-[var(--bg)] border-[var(--accent)]' : 'bg-[var(--line)] text-[var(--muted)] border-transparent'}`}
                                       onClick={async () => {
                                          const exists = platformIntegrations.find(i => i.type === 'SERVICE' && i.name === 'GoogleChat');
                                          if (!exists) {
@@ -6312,14 +6365,14 @@ export default function App() {
                                   )}
                                </div>
 
-                               <div className="flex flex-col gap-2 p-3 border border-neutral-200 rounded-md">
+                               <div className="flex flex-col gap-2 p-3 border border-[var(--line)] bg-[var(--bg)] rounded-md">
                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs font-mono font-bold flex items-center gap-2">
-                                        <Mail size={16} className="text-blue-600" />
+                                    <span className="text-xs font-mono font-bold flex items-center gap-2 text-[var(--ink)]">
+                                        <Mail size={16} className="text-[var(--accent)]" />
                                         Inbound Email Gateway
                                     </span>
                                     <button 
-                                      className={`px-3 py-1 text-[9px] uppercase font-bold text-center border rounded-md ${platformIntegrations.some(i => i.type === 'EMAIL_INBOUND') ? 'bg-blue-100 text-blue-800 border-blue-300' : 'bg-neutral-100 text-neutral-600'}`}
+                                      className={`px-3 py-1 text-[9px] uppercase font-bold text-center border rounded-md transition-colors ${platformIntegrations.some(i => i.type === 'EMAIL_INBOUND') ? 'bg-[var(--accent)] text-[var(--bg)] border-[var(--accent)]' : 'bg-[var(--line)] text-[var(--muted)] border-transparent'}`}
                                       onClick={async () => {
                                         const exists = platformIntegrations.find(i => i.type === 'EMAIL_INBOUND');
                                         if (!exists) {
@@ -6412,7 +6465,7 @@ export default function App() {
                                  <div key={s.id} className="flex items-center justify-between">
                                    <span className="text-xs font-mono font-bold">{s.name}</span>
                                    <button 
-                                     className={`px-2 py-0.5 text-[9px] uppercase font-bold text-center w-16 ${s.status === 'ACTIVE' ? 'bg-slate-900 text-white rounded-lg' : 'border border-neutral-200 rounded-lg text-black'}`} 
+                                     className={`px-2 py-0.5 text-[9px] uppercase font-bold text-center w-16 ${s.status === 'ACTIVE' ? 'bg-[var(--nav-bg)] text-[var(--nav-ink)]' : 'border border-[var(--line)] text-[var(--muted)]'}`} 
                                      onClick={() => {
                                        updatePlatformIntegration(s.id, { status: s.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE' }).then(() => {
                                          getPlatformIntegrations().then(setPlatformIntegrations);
@@ -6751,8 +6804,8 @@ export default function App() {
                            <div className="flex justify-between items-center bg-black p-2 px-4 shadow-sm rounded-xl text-white w-fit mb-6">
                              <h3 className="text-lg font-bold uppercase text-[#cdfc42]">Expert Personas</h3>
                            </div>
-                           <div className="bg-white rounded-xl border border-neutral-200 p-6 shadow-sm">
-                             <p className="text-xs text-slate-500 mb-4 tracking-tight">Define specialized AI agent personas that can be attached to workflow steps for parallel execution.</p>
+                           <div className="bg-[var(--card-bg)] border border-[var(--line)] p-6 shadow-2xl rounded-3xl">
+                             <p className="text-xs text-[var(--muted)] mb-4 tracking-tight">Define specialized AI agent personas that can be attached to workflow steps for parallel execution.</p>
                              
                              <div className="space-y-4 mb-6">
                                 {platformIntegrations.filter(i => i.type === 'PERSONA').map(persona => (
@@ -6807,8 +6860,8 @@ export default function App() {
                            <div className="flex justify-between items-center bg-black p-2 px-4 shadow-sm rounded-xl text-white w-fit mb-6">
                              <h3 className="text-lg font-bold uppercase text-[#cdfc42]">Past Proposal RAG Sources</h3>
                            </div>
-                           <div className="bg-white rounded-xl border border-neutral-200 p-6 shadow-sm">
-                             <p className="text-xs text-slate-500 mb-4 tracking-tight">Connect Google Drive folders containing past proposals. The AI will ingest these to augment context retrieval when drafting new responses.</p>
+                           <div className="bg-[var(--card-bg)] border border-[var(--line)] p-6 shadow-2xl rounded-3xl">
+                             <p className="text-xs text-[var(--muted)] mb-4 tracking-tight">Connect Google Drive folders containing past proposals. The AI will ingest these to augment context retrieval when drafting new responses.</p>
                              
                              <div className="space-y-4 mb-6">
                                 {platformIntegrations.filter(i => i.type === 'RAG_SOURCE').map(rag => (
@@ -6873,9 +6926,9 @@ export default function App() {
                            </div>
                            
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                              <div className="bento-card border border-neutral-200 bg-white p-6 hover:bg-neutral-50 transition-colors rounded-2xl">
+                              <div className="bento-card border border-[var(--line)] bg-[var(--card-bg)] p-6 hover:bg-[var(--nav-bg)] transition-colors rounded-2xl group/notify">
                                 <div className="flex items-center justify-between mb-4">
-                                  <div className="flex items-center gap-3 text-slate-900 font-bold">
+                                  <div className="flex items-center gap-3 text-[var(--ink)] font-bold">
                                     <Bell size={20} className="text-blue-600" />
                                     <h4 className="text-sm font-bold uppercase font-sans">Project Milestones</h4>
                                   </div>
@@ -6887,9 +6940,9 @@ export default function App() {
                                 <p className="text-[10px] text-slate-500 font-mono leading-relaxed">Notify when a submission reaches a target state or lifecycle stage changes.</p>
                               </div>
 
-                              <div className="bento-card border border-neutral-200 bg-white p-6 hover:bg-neutral-50 transition-colors rounded-2xl">
+                              <div className="bento-card border border-[var(--line)] bg-[var(--card-bg)] p-6 hover:bg-[var(--nav-bg)] transition-colors rounded-2xl group/notify">
                                 <div className="flex items-center justify-between mb-4">
-                                  <div className="flex items-center gap-3 text-slate-900 font-bold">
+                                  <div className="flex items-center gap-3 text-[var(--ink)] font-bold">
                                     <Users size={20} className="text-purple-600" />
                                     <h4 className="text-sm font-bold uppercase font-sans">Collaborators</h4>
                                   </div>
@@ -6944,7 +6997,7 @@ export default function App() {
                            <div className="flex justify-between items-center bg-black p-2 px-4 shadow-sm rounded-xl text-white w-fit mb-6">
                              <h3 className="text-lg font-bold uppercase text-blue-400">System Roadmap & Tasks</h3>
                            </div>
-                           <div className="bg-white rounded-xl border border-neutral-200 rounded-lg p-8 font-mono text-sm leading-relaxed shadow-sm rounded-xl">
+                           <div className="bg-[var(--card-bg)] border border-[var(--line)] rounded-3xl p-8 font-mono text-sm leading-relaxed shadow-2xl">
                              <h4 className="font-bold text-lg mb-4 uppercase border-b border-black pb-2">Phase 1: Infrastructure & Storage Reality</h4>
                              <ul className="list-disc pl-6 space-y-2 mb-8">
                                <li className="line-through opacity-50 text-green-700">Transition from simulated/mock file parsing to real file handling.</li>
@@ -6979,19 +7032,6 @@ export default function App() {
         </>
         )}
       </div>
-
-      {/* Footer Status Bar */}
-      <footer className="border-t border-black bg-slate-900 text-white rounded-lg px-6 py-2 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em]">
-        <div className="flex gap-6">
-          <span>PACK: v9_FLAT</span>
-          <span>STATUS: SYNCED</span>
-          <span>LATENCY: 12ms</span>
-        </div>
-        <div className="flex gap-4">
-          <span>{new Date().toISOString()}</span>
-          <span className="text-green-400">system_ready</span>
-        </div>
-      </footer>
 
       <AnimatePresence>
         {isQuickIngestModalOpen && (
@@ -7084,8 +7124,8 @@ export default function App() {
     
       {viewingGemContent && (
         <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-8 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-full flex flex-col no-invert">
-            <div className="px-6 py-4 border-b border-neutral-200 flex justify-between items-center bg-slate-900 text-white rounded-t-xl">
+          <div className="bg-[var(--card-bg)] rounded-2xl shadow-[0_0_100px_rgba(0,0,0,1)] w-full max-w-4xl max-h-full flex flex-col no-invert border border-[var(--accent)]/30">
+            <div className="px-6 py-4 border-b border-[var(--line)] flex justify-between items-center bg-[var(--nav-bg)] text-[var(--nav-ink)] rounded-t-xl">
               <h3 className="font-bold text-lg">AI Logic Viewer</h3>
               <button onClick={() => setViewingGemContent(null)} className="hover:opacity-70"><X size={20}/></button>
             </div>
@@ -7100,6 +7140,33 @@ export default function App() {
 
       {showGchatSimulator && <GoogleChatSimulator onClose={() => setShowGchatSimulator(false)} />}
 
+      {isGlobalProcessing && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[10000] flex items-center justify-center pointer-events-auto">
+          <div className="flex flex-col items-center gap-6 p-10 bg-[var(--card-bg)] border border-[var(--accent)]/30 rounded-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)] max-w-sm w-full mx-4 text-center">
+            <div className="relative">
+              <div className="w-20 h-20 border-4 border-[var(--accent)]/10 border-t-[var(--accent)] rounded-full animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Cpu size={32} className="text-[var(--accent)] animate-pulse" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-sans text-lg font-bold text-[var(--accent)] uppercase tracking-widest">{processingText}</h3>
+              <p className="font-mono text-[10px] text-[var(--muted)] uppercase leading-relaxed opacity-70 px-4">
+                {elyriaQuote}
+              </p>
+            </div>
+            <div className="w-64 bg-[var(--line)] h-1 rounded-full overflow-hidden">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="h-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)]"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Co-Pilot Chat */}
       {showCoPilot ? (
         <CoPilotChat 
@@ -7109,7 +7176,7 @@ export default function App() {
       ) : (
         <button 
           onClick={() => setShowCoPilot(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-slate-900 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-slate-800 transition-colors z-50 rounded-md shadow-sm"
+          className="fixed bottom-6 right-6 w-14 h-14 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center shadow-[0_0_20px_var(--accent-glow)] hover:scale-110 active:scale-95 transition-all z-50 btn-energize"
           title="Ask Elyria Co-Pilot"
         >
           <Bot size={24} />

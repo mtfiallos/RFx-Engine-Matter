@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { RfxSubmission, Requirement, Risk, Assumption } from '../services/rfxService';
 import { CheckCircle2, AlertTriangle, HelpCircle } from 'lucide-react';
 
-export function MyQueue({ submissions, userEmail }: { submissions: RfxSubmission[], userEmail?: string | null }) {
+export function MyQueue({ submissions, userEmail, isFullWidth = false }: { submissions: RfxSubmission[], userEmail?: string | null, isFullWidth?: boolean }) {
   const [myTasks, setMyTasks] = useState<any[]>([]);
 
   useEffect(() => {
@@ -33,17 +33,17 @@ export function MyQueue({ submissions, userEmail }: { submissions: RfxSubmission
   }, [submissions, userEmail]);
 
   if (!userEmail) {
-    return <div className="p-8 text-center text-neutral-500">Please sign in to view your queue.</div>;
+    return <div className="p-8 text-center text-[var(--muted)]">Please sign in to view your queue.</div>;
   }
 
   return (
-    <div className="p-8 bg-neutral-50 min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold font-sans tracking-tight mb-6">My SME Action Queue</h1>
+    <div className="p-4 md:p-8 bg-[var(--bg)] min-h-screen circuit-pattern">
+      <div className={`${isFullWidth ? 'w-full' : 'max-w-4xl'} mx-auto`}>
+        <h1 className="text-xl md:text-2xl font-bold font-sans tracking-tight mb-8 text-[var(--ink)] uppercase">SME Operation Queue</h1>
         {myTasks.length === 0 ? (
-          <div className="bg-white p-12 text-center rounded-xl shadow-sm border border-neutral-200">
-            <h3 className="text-lg font-medium text-slate-800">You're all caught up!</h3>
-            <p className="text-slate-500 mt-2">No requirements or risks assigned to you at the moment.</p>
+          <div className="bento-card p-12 text-center bg-[var(--card-bg)]">
+            <h3 className="text-lg font-medium text-[var(--ink)]">Pipeline Empty</h3>
+            <p className="text-[var(--muted)] mt-2 font-mono text-xs uppercase tracking-widest">No active requirements or risk vectors assigned to your node.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -52,33 +52,34 @@ export function MyQueue({ submissions, userEmail }: { submissions: RfxSubmission
                 key={task.id + idx}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-6 rounded-xl border border-neutral-200 shadow-sm flex flex-col gap-3"
+                className="bento-card p-6 bg-[var(--card-bg)] shadow-lg flex flex-col gap-4 border border-[var(--line)] hover:border-[var(--accent)]"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex gap-2 items-center">
-                    <span className="font-mono text-[10px] uppercase bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                    <span className="font-mono text-[9px] font-bold uppercase bg-[var(--nav-bg)] text-[var(--muted)] px-2 py-1 rounded-md border border-[var(--line)]">
                       {task.submissionTitle}
                     </span>
-                    <span className="font-mono text-[10px] uppercase font-bold px-2 py-1 rounded" style={{
-                      backgroundColor: task.itemType === 'requirement' ? '#eef2ff' : task.itemType === 'risk' ? '#fef2f2' : '#fffbeb',
-                      color: task.itemType === 'requirement' ? '#4f46e5' : task.itemType === 'risk' ? '#dc2626' : '#d97706'
+                    <span className="font-mono text-[9px] uppercase font-bold px-2 py-1 rounded-md border" style={{
+                      backgroundColor: task.itemType === 'requirement' ? 'rgba(34, 211, 238, 0.1)' : task.itemType === 'risk' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                      borderColor: task.itemType === 'requirement' ? 'var(--accent)' : task.itemType === 'risk' ? '#ef4444' : '#f59e0b',
+                      color: task.itemType === 'requirement' ? 'var(--accent)' : task.itemType === 'risk' ? '#ef4444' : '#f59e0b'
                     }}>
                       {task.itemType}
                     </span>
                   </div>
-                  {task.itemType === 'requirement' && <CheckCircle2 size={16} className="text-neutral-400" />}
+                  {task.itemType === 'requirement' && <CheckCircle2 size={16} className="text-[var(--accent)]" />}
                   {task.itemType === 'risk' && <AlertTriangle size={16} className="text-red-400" />}
                   {task.itemType === 'assumption' && <HelpCircle size={16} className="text-amber-400" />}
                 </div>
 
-                <div className="font-medium text-slate-900">
+                <div className="font-medium text-[var(--ink)] text-sm md:text-base leading-relaxed">
                   {task.text || task.title || task.description}
                 </div>
 
-                {/* Add a placeholder action logic or link to submission */}
-                <div className="mt-4 pt-4 border-t border-neutral-100 flex justify-end">
-                  <button className="bg-slate-900 text-white px-4 py-2 rounded-md shadow-sm text-xs font-bold uppercase font-mono hover:bg-slate-800 transition-colors">
-                    Go to Submission Context
+                {/* SME Action Area */}
+                <div className="mt-4 pt-4 border-t border-[var(--line)] flex justify-end">
+                  <button className="bg-[var(--accent)] text-[var(--bg)] px-5 py-2 rounded-full shadow-lg text-[10px] font-black uppercase font-mono hover:scale-105 active:scale-95 transition-all btn-energize">
+                    Access Context
                   </button>
                 </div>
               </motion.div>
