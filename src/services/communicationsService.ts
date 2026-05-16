@@ -6,6 +6,7 @@ export interface InboundEmail {
   from: string;
   subject: string;
   snippet: string;
+  body?: string;
   date: string;
   status: 'unread' | 'read' | 'handled';
 }
@@ -59,9 +60,9 @@ export async function getInboundEmails(): Promise<InboundEmail[]> {
 
 async function seedEmails() {
    const dummy = [
-        { from: 'vendor@example.com', subject: 'Re: Clarifications on RFP X-902', snippet: 'Can you provide the final architectural schematics for section 3.2?', date: new Date().toISOString(), status: 'unread' as const },
-        { from: 'legal@clientcorp.com', subject: 'Revised MSA Terms', snippet: 'Please review the attached changes to clause 4.5.1 regarding indemnification.', date: new Date(Date.now() - 86400000).toISOString(), status: 'read' as const },
-        { from: 'procurement@acme.inc', subject: 'Submission Received', snippet: 'We have received your proposal and it is currently under technical review.', date: new Date(Date.now() - 172800000).toISOString(), status: 'handled' as const },
+        { from: 'vendor@example.com', subject: 'Re: Clarifications on RFP X-902', snippet: 'Can you provide the final architectural schematics for section 3.2?', body: 'Hello Elyria Team,\n\nWe are in the process of finalizing our technical response for RFP X-902. Can you provide the final architectural schematics for section 3.2 as discussed in the last SME call?\n\nBest Regards,\nVendor Technical Team', date: new Date().toISOString(), status: 'unread' as const },
+        { from: 'legal@clientcorp.com', subject: 'Revised MSA Terms', snippet: 'Please review the attached changes to clause 4.5.1 regarding indemnification.', body: 'To the Pursuit Lead,\n\nPlease find the revised Master Service Agreement attached. Specifically, review the changes to clause 4.5.1 regarding indemnification limits. These were adjusted based on the feedback from your risk management team.\n\nLegal Counsel', date: new Date(Date.now() - 86400000).toISOString(), status: 'read' as const },
+        { from: 'procurement@acme.inc', subject: 'Submission Received', snippet: 'We have received your proposal and it is currently under technical review.', body: 'Dear Proponent,\n\nThis is to confirm that we have received your proposal for the ACME Outsourcing Project. The submission is currently under technical review by our evaluators. You will be notified of the outcome or any clarification requests by the end of the week.\n\nAcme Procurement', date: new Date(Date.now() - 172800000).toISOString(), status: 'handled' as const },
    ];
    for(let mail of dummy) {
        await addInboundEmail(mail);
@@ -88,5 +89,13 @@ export async function updateInboundEmailStatus(id: string, status: 'unread' | 'r
     });
   } catch (error) {
     return handleFirestoreError(error, OperationType.UPDATE, `inbound_emails/${id}`);
+  }
+}
+
+export async function deleteInboundEmail(id: string) {
+  try {
+    await deleteDoc(doc(db, 'inbound_emails', id));
+  } catch (error) {
+    return handleFirestoreError(error, OperationType.DELETE, `inbound_emails/${id}`);
   }
 }

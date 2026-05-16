@@ -74,7 +74,9 @@ import {
   LayoutGrid,
   Bot,
   Mails,
-  Mail
+  Mail,
+  Bell,
+  Users
 } from 'lucide-react';
 import { MANIFEST, CONTROL_PACK, GEM_CHAIN_LOGIC as INITIAL_GEM_CHAIN_LOGIC } from './constants';
 import { auth, loginWithGoogle, logout, linkGoogleDrive } from './lib/firebase';
@@ -3054,7 +3056,7 @@ export default function App() {
       setIsChatting(false);
     }
   };
-  const [configSection, setConfigSection] = useState<'general' | 'manifest' | 'users' | 'integrations' | 'drive' | 'system_tasks' | 'personas' | 'rag_sources'>('general');
+  const [configSection, setConfigSection] = useState<'general' | 'manifest' | 'users' | 'integrations' | 'drive' | 'system_tasks' | 'personas' | 'rag_sources' | 'notifications'>('general');
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
@@ -3951,69 +3953,69 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen overflow-hidden selection:bg-black selection:text-white">
       {/* Header */}
-      <header className="border-b border-neutral-200 flex items-center justify-between px-6 py-4 bg-white z-10 shrink-0 shadow-sm">
+      <header className="border-b border-[var(--line)] flex items-center justify-between px-6 py-4 bg-[var(--card-bg)] z-10 shrink-0 shadow-lg">
         <div className="flex items-center gap-4">
           <button 
             onClick={() => setIsNavOpen(!isNavOpen)} 
-            className="md:hidden p-2 hover:bg-neutral-100 transition-colors rounded-lg"
+            className="md:hidden p-2 hover:bg-white/10 transition-colors rounded-lg text-[var(--ink)]"
           >
             <Menu size={24} />
           </button>
-          <div className="w-10 h-10 bg-slate-900 flex items-center justify-center rounded-[12px] hidden md:flex shadow-sm">
-            <Cpu className="text-white w-6 h-6" />
+          <div className="w-10 h-10 bg-[var(--accent)] flex items-center justify-center rounded-[12px] hidden md:flex shadow-[0_0_15px_rgba(100,255,218,0.3)]">
+            <Cpu className="text-[var(--bg)] w-6 h-6" />
           </div>
           <div>
-            <h1 className="font-sans text-xl font-bold tracking-tight uppercase text-slate-900">{systemAppName}</h1>
-            <p className="font-mono text-[10px] opacity-50 tracking-widest uppercase">VERSION 9.0.0 // NGP-002 ENFORCED</p>
+            <h1 className="font-sans text-xl font-bold tracking-tight uppercase text-[var(--ink)]">{systemAppName}</h1>
+            <p className="font-mono text-[10px] text-[var(--accent)] opacity-70 tracking-widest uppercase">VERSION 9.0.0 // NGP-002 ENFORCED</p>
           </div>
         </div>
         <div className="flex items-center gap-6 font-mono text-xs">
-          <div className="flex items-center gap-4">
-            <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors">
+          <div className="flex items-center gap-4 text-[var(--ink)]">
+            <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center hover:bg-white/5 transition-colors">
               <Moon size={14} className="opacity-70" />
             </button>
-            <button onClick={() => setIsFullWidth(!isFullWidth)} className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center hover:bg-black/5 transition-colors">
+            <button onClick={() => setIsFullWidth(!isFullWidth)} className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center hover:bg-white/5 transition-colors">
               <Maximize size={14} className="opacity-70" />
             </button>
-            <button onClick={() => editingId ? setSharingId(editingId) : alert('Please select a submission to share first.')} className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-black/10 hover:bg-black/5 transition-colors font-mono text-[10px] font-bold">
-              <Share2 size={12} className="opacity-70" />
+            <button onClick={() => editingId ? setSharingId(editingId) : alert('Please select a submission to share first.')} className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all font-mono text-[10px] font-bold">
+              <Share2 size={12} />
               SHARE
             </button>
 </div>
           {user ? (
             <div className="flex items-center gap-4">
               <div className="flex flex-col items-end">
-                <span className="font-sans font-medium text-slate-900">{user.displayName}</span>
+                <span className="font-sans font-medium text-[var(--ink)]">{user.displayName}</span>
                 <button 
                   onClick={logout}
-                  className="text-[9px] hover:underline flex items-center gap-1 text-neutral-500 rounded-md shadow-sm"
+                  className="text-[9px] hover:underline flex items-center gap-1 text-[var(--muted)]"
                 >
                   <LogOut size={10} /> LOGOUT
                 </button>
               </div>
               {user.photoURL && (
-                <img src={user.photoURL} alt={user.displayName || ''} className="w-9 h-9 rounded-full border border-neutral-200 shadow-sm" referrerPolicy="no-referrer" />
+                <img src={user.photoURL} alt={user.displayName || ''} className="w-9 h-9 rounded-full border border-[var(--line)] shadow-sm" referrerPolicy="no-referrer" />
               )}
             </div>
           ) : (
             <button 
               onClick={() => loginWithGoogle().catch(err => alert("Login failed. If using an iPad/tablet, ensuring popups are allowed or open this page in a new Tab: " + err.message))}
-              className="px-4 py-2 bg-slate-900 text-white rounded-full flex items-center gap-2 hover:bg-neutral-800 transition-colors shadow-sm font-sans font-medium"
+              className="px-4 py-2 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center gap-2 hover:opacity-90 transition-all shadow-lg font-sans font-medium"
             >
               <LogIn size={14} /> SIGN IN
             </button>
           )}
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${user ? 'bg-green-500 animate-[pulse_2s_ease-in-out_infinite]' : 'bg-red-500'}`} />
-            <span className="font-bold text-neutral-500">{user ? 'ONLINE' : 'OFFLINE'}</span>
+            <div className={`w-2 h-2 rounded-full ${user ? 'bg-[var(--accent)] animate-[pulse_2s_ease-in-out_infinite]' : 'bg-red-500'}`} />
+            <span className="font-bold text-[var(--muted)]">{user ? 'ONLINE' : 'OFFLINE'}</span>
           </div>
-          <div className="px-3 py-1 bg-slate-900 text-white rounded-full text-[10px] uppercase font-bold tracking-widest hidden md:block">
+          <div className="px-3 py-1 bg-[var(--line)] text-[var(--ink)] rounded-full text-[10px] uppercase font-bold tracking-widest hidden md:block">
             Elyria Matrix
           </div>
           {(userProfile?.role === 'OWNER' || user?.email === 'recirc@gmail.com') && (
             <button 
               onClick={() => setActiveTab('configuration')}
-              className={`p-2.5 transition-colors rounded-full ${activeTab === 'configuration' ? 'bg-slate-100 text-slate-900' : 'text-neutral-500 hover:bg-neutral-100'}`}
+              className={`p-2.5 transition-colors rounded-full ${activeTab === 'configuration' ? 'bg-[var(--accent)] text-[var(--bg)]' : 'text-[var(--muted)] hover:bg-white/5'}`}
               title="Platform Configuration"
             >
               <Settings size={18} />
@@ -4022,7 +4024,7 @@ export default function App() {
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden relative bg-neutral-50">
+      <div className="flex flex-1 overflow-hidden relative bg-[var(--bg)]">
         {errorHeader && (
           <div className="absolute top-0 left-0 right-0 bg-red-600 text-white font-mono text-[10px] py-1.5 px-6 flex justify-between items-center z-50">
             <div className="flex flex-col">
@@ -4035,18 +4037,18 @@ export default function App() {
         )}
 
         {loading ? (
-          <div className="w-full flex items-center justify-center p-12 flex-col">
-            <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin mb-4" />
+          <div className="w-full flex items-center justify-center p-12 flex-col text-[var(--ink)]">
+            <div className="w-12 h-12 border-4 border-[var(--accent)] border-t-transparent rounded-full animate-spin mb-4" />
             <h2 className="font-mono font-bold uppercase tracking-widest text-sm">Authenticating Array...</h2>
           </div>
         ) : !user ? (
-          <div className="w-full flex flex-col items-center justify-center p-12">
-            <Cpu size={64} className="mb-6" />
+          <div className="w-full flex flex-col items-center justify-center p-12 text-[var(--ink)]">
+            <Cpu size={64} className="mb-6 text-[var(--accent)]" />
             <h2 className="font-mono text-3xl font-bold uppercase mb-4 tracking-tighter">Access restricted</h2>
-            <p className="font-mono text-sm opacity-60 max-w-md text-center mb-8">Please sign in to access the Elyria Matrix RFx Engine and your organization's workspaces.</p>
+            <p className="font-mono text-sm text-[var(--muted)] max-w-md text-center mb-8">Please sign in to access the Elyria Matrix RFx Engine and your organization's workspaces.</p>
             <button 
               onClick={() => loginWithGoogle().catch(err => alert("Login failed. If using an iPad/tablet, try opening this app in a new tab: " + err.message))}
-              className="px-8 py-4 bg-slate-900 text-white rounded-lg font-mono font-bold uppercase hover:bg-neutral-800 transition-colors shadow-sm rounded-xl    flex items-center gap-2"
+              className="px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-xl font-mono font-bold uppercase hover:opacity-90 transition-all shadow-lg flex items-center gap-2"
             >
               <LogIn size={18} /> Authenticate Session
             </button>
@@ -4056,15 +4058,15 @@ export default function App() {
             {/* Sidebar Overlay on Mobile */}
             {isNavOpen && (
               <div 
-                className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                className="fixed inset-0 bg-black/80 z-40 md:hidden"
                 onClick={() => setIsNavOpen(false)}
               />
             )}
             
             {/* Sidebar Nav */}
-            <nav className={`fixed inset-y-0 left-0 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 w-64 border-r border-neutral-200 flex flex-col bg-white shrink-0 z-50 md:z-auto transition-transform duration-200 ease-in-out`}>
-              <div className="flex md:hidden justify-end p-4 border-b border-neutral-200">
-                <button onClick={() => setIsNavOpen(false)} className="hover:bg-neutral-100 p-2 rounded-lg text-neutral-500">
+            <nav className={`fixed inset-y-0 left-0 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 w-64 border-r border-[var(--line)] flex flex-col bg-[var(--card-bg)] shrink-0 z-50 md:z-auto transition-transform duration-200 ease-in-out`}>
+              <div className="flex md:hidden justify-end p-4 border-b border-[var(--line)]">
+                <button onClick={() => setIsNavOpen(false)} className="hover:bg-white/5 p-2 rounded-lg text-[var(--muted)]">
                   <X size={20} />
                 </button>
               </div>
@@ -4072,14 +4074,14 @@ export default function App() {
               <div className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
                 <button 
                   onClick={() => { setActiveTab('analytics'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'analytics' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'analytics' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <BarChart3 size={18} />
                   <span className="font-sans text-sm font-medium">Pursuit Dashboard</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('status'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'status' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'status' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <ShieldCheck size={18} />
                   <span className="font-sans text-sm font-medium">Control Center</span>
@@ -4087,7 +4089,7 @@ export default function App() {
                 {(userProfile?.role === 'ADMIN' || userProfile?.role === 'OWNER') && (
                   <button 
                     onClick={() => { setActiveTab('manifest'); setIsNavOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'manifest' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'manifest' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                   >
                     <Package size={18} />
                     <span className="font-sans text-sm font-medium">Manifest Archive</span>
@@ -4096,7 +4098,7 @@ export default function App() {
                 {(userProfile?.role === 'EDITOR' || userProfile?.role === 'ADMIN' || userProfile?.role === 'OWNER') && (
                   <button 
                     onClick={() => { setActiveTab('orchestration'); setIsNavOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'orchestration' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'orchestration' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                   >
                     <Workflow size={18} />
                     <span className="font-sans text-sm font-medium">Orchestration</span>
@@ -4104,63 +4106,64 @@ export default function App() {
                 )}
                 <button 
                   onClick={() => { setActiveTab('submissions'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'submissions' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'submissions' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <FileText size={18} />
                   <span className="font-sans text-sm font-medium">Submissions Library</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('my_queue'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'my_queue' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'my_queue' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <MessageSquare size={18} />
                   <span className="font-sans text-sm font-medium">My Queue</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('communications'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'communications' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'communications' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <Mails size={18} />
                   <span className="font-sans text-sm font-medium">Inbox & Comms</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('chat'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'chat' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'chat' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <MessageSquare size={18} />
                   <span className="font-sans text-sm font-medium">AI Intelligence</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('templates'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'templates' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'templates' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <Copy size={18} />
                   <span className="font-sans text-sm font-medium">Template Matrix</span>
                 </button>
                 <button 
                   onClick={() => { setActiveTab('ragExplorer'); setIsNavOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'ragExplorer' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-neutral-100 hover:text-slate-900'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-[16px] text-left transition-all ${activeTab === 'ragExplorer' ? 'bg-[var(--accent)] text-[var(--bg)] shadow-[0_0_20px_rgba(100,255,218,0.2)]' : 'text-[var(--muted)] hover:bg-white/5 hover:text-[var(--ink)]'}`}
                 >
                   <Database size={18} />
                   <span className="font-sans text-sm font-medium">Knowledge Base</span>
                 </button>
               </div>
           
-              <div className="p-4 mt-auto shrink-0 border-t border-neutral-100">
-                <div className="bg-neutral-100 text-slate-800 rounded-[20px] p-5 border border-neutral-200/60 shadow-sm relative overflow-hidden">
-                  <div className="absolute -top-6 -right-6 text-neutral-200 opacity-50 rotate-12 pointer-events-none">
+              <div className="p-4 mt-auto shrink-0 border-t border-[var(--line)]">
+                <div className="bg-[var(--line)] text-[var(--ink)] rounded-[20px] p-5 border border-white/5 shadow-lg relative overflow-hidden">
+                  <div className="absolute -top-6 -right-6 text-[var(--accent)] opacity-10 rotate-12 pointer-events-none">
                      <Cpu size={100} />
                   </div>
                   <div className="flex items-center gap-2 mb-3 relative z-10">
-                    <User size={14} className="text-slate-500" />
-                    <span className="font-sans text-xs font-semibold tracking-wide uppercase text-slate-500">Elyria Assistant</span>
+                    <User size={14} className="text-[var(--accent)]" />
+                    <span className="font-sans text-xs font-semibold tracking-wide uppercase text-[var(--accent)] opacity-70">Elyria Assistant</span>
                   </div>
-                  <p className="font-serif text-sm italic leading-relaxed text-slate-700 relative z-10">
+                  <p className="font-serif text-sm italic leading-relaxed text-[var(--ink)] opacity-90 relative z-10">
                     "{elyriaQuote}"
                   </p>
                 </div>
               </div>
             </nav>
+
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto bg-transparent relative">
@@ -4173,13 +4176,13 @@ export default function App() {
                 exit={{ opacity: 0, y: -10 }}
                 className={`p-8 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto`}
               >
-                <div className="flex justify-between items-center mb-8 border-b border-black pb-4">
-                   <div className="flex items-center gap-3">
-                     <BarChart3 size={24} />
-                     <h2 className="text-2xl font-semibold tracking-tight text-slate-900 tracking-tighter">Pursuit & Capture Dashboard</h2>
+                <div className="flex justify-between items-center mb-8 border-b border-[var(--line)] pb-4">
+                   <div className="flex items-center gap-3 text-[var(--ink)]">
+                     <BarChart3 size={24} className="text-[var(--accent)]" />
+                     <h2 className="text-2xl font-semibold tracking-tight tracking-tighter">Pursuit & Capture Dashboard</h2>
                    </div>
                    <div className="flex items-center gap-3">
-                     <button onClick={() => { setIsQuickIngestModalOpen(true); }} className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-white bg-slate-900 rounded hover:bg-slate-800 transition-colors shadow-sm cursor-pointer flex items-center gap-2">
+                     <button onClick={() => { setIsQuickIngestModalOpen(true); }} className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-[var(--bg)] bg-[var(--accent)] rounded hover:opacity-90 transition-all shadow-lg cursor-pointer flex items-center gap-2">
                          <FileText size={12}/> QUICK START RFx
                      </button>
                      <button 
@@ -4195,7 +4198,7 @@ export default function App() {
                          document.body.removeChild(a);
                          URL.revokeObjectURL(url);
                        }}
-                       className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-slate-900 bg-white border border-slate-900 rounded hover:bg-slate-50 transition-colors hidden md:block"
+                       className="px-4 py-2 font-mono text-[10px] uppercase font-bold text-[var(--ink)] bg-transparent border border-[var(--line)] rounded hover:bg-white/5 transition-colors hidden md:block"
                      >
                        Export Report
                      </button>
@@ -4203,31 +4206,31 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                  <div className="bg-white border text-center border-neutral-200 p-6 rounded-xl shadow-sm flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-slate-500">Active Pursuits</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-slate-900 mt-2">12</p>
-                    <p className="text-xs text-green-600 mt-2">↑ 3 this week</p>
+                  <div className="bento-card text-center flex flex-col justify-center">
+                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Active Pursuits</p>
+                    <p className="text-4xl font-sans font-bold tracking-tighter text-[var(--ink)] mt-2">12</p>
+                    <p className="text-xs text-[var(--accent)] mt-2">↑ 3 this week</p>
                   </div>
-                  <div className="bg-white border text-center border-neutral-200 p-6 rounded-xl shadow-sm flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-slate-500">Global Win Rate</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-slate-900 mt-2">68%</p>
-                    <p className="text-xs text-green-600 mt-2">↑ 4% this quarter</p>
+                  <div className="bento-card text-center flex flex-col justify-center">
+                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Global Win Rate</p>
+                    <p className="text-4xl font-sans font-bold tracking-tighter text-[var(--ink)] mt-2">68%</p>
+                    <p className="text-xs text-[var(--accent)] mt-2">↑ 4% this quarter</p>
                   </div>
-                  <div className="bg-white border text-center border-neutral-200 p-6 rounded-xl shadow-sm flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-slate-500">Critical Risks Detected</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-red-600 mt-2">34</p>
-                    <p className="text-xs text-red-500 mt-2">Requires immediate mitigation</p>
+                  <div className="bento-card text-center flex flex-col justify-center">
+                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">Critical Risks Detected</p>
+                    <p className="text-4xl font-sans font-bold tracking-tighter text-red-500 mt-2">34</p>
+                    <p className="text-xs text-red-400 mt-2">Requires immediate mitigation</p>
                   </div>
-                  <div className="bg-white border text-center border-neutral-200 p-6 rounded-xl shadow-sm flex flex-col justify-center">
-                    <p className="text-[10px] font-mono font-bold uppercase text-slate-500">AI Confidence Score</p>
-                    <p className="text-4xl font-sans font-bold tracking-tighter text-blue-600 mt-2">92%</p>
-                    <p className="text-xs text-slate-500 mt-2">Across generated outputs</p>
+                  <div className="bento-card text-center flex flex-col justify-center">
+                    <p className="text-[10px] font-mono font-bold uppercase text-[var(--muted)]">AI Confidence Score</p>
+                    <p className="text-4xl font-sans font-bold tracking-tighter text-blue-400 mt-2">92%</p>
+                    <p className="text-xs text-[var(--muted)] mt-2">Across generated outputs</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                   <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
-                      <h3 className="font-sans font-bold text-sm mb-4">Risk Distribution by RFx Stage</h3>
+                   <div className="bento-card">
+                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">Risk Distribution by RFx Stage</h3>
                       <div className="h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={[
@@ -4236,10 +4239,10 @@ export default function App() {
                               { name: 'Drafting', legal: 3, technical: 4, commercial: 12 },
                               { name: 'Final Approval', legal: 8, technical: 2, commercial: 18 }
                             ]}>
-                               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                               <XAxis dataKey="name" tick={{fontSize: 10}} tickLine={false} axisLine={false} />
-                               <YAxis tick={{fontSize: 10}} tickLine={false} axisLine={false} />
-                               <RechartsTooltip contentStyle={{fontSize: '12px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
+                               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--line)" />
+                               <XAxis dataKey="name" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <RechartsTooltip contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
                                <Legend wrapperStyle={{fontSize: '10px'}} />
                                <Bar dataKey="legal" name="Legal" stackId="a" fill="#ef4444" radius={[0, 0, 4, 4]} />
                                <Bar dataKey="technical" name="Technical" stackId="a" fill="#3b82f6" />
@@ -4249,32 +4252,32 @@ export default function App() {
                       </div>
                    </div>
 
-                   <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
-                      <h3 className="font-sans font-bold text-sm mb-4">Win Rates by Sector</h3>
+                   <div className="bento-card">
+                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">Win Rates by Sector</h3>
                       <div className="h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart layout="vertical" data={[
-                              { name: 'Public Sector', rate: 78, fill: '#0f172a' },
-                              { name: 'Healthcare', rate: 65, fill: '#334155' },
-                              { name: 'Financial', rate: 82, fill: '#475569' },
-                              { name: 'Technology', rate: 54, fill: '#64748b' },
-                              { name: 'Retail', rate: 41, fill: '#94a3b8' }
+                              { name: 'Public Sector', rate: 78, fill: '#64ffda' },
+                              { name: 'Healthcare', rate: 65, fill: '#4ea5ff' },
+                              { name: 'Financial', rate: 82, fill: '#7e5bef' },
+                              { name: 'Technology', rate: 54, fill: '#ff4e00' },
+                              { name: 'Retail', rate: 41, fill: '#f59e0b' }
                             ]}>
-                               <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                               <XAxis type="number" tick={{fontSize: 10}} tickLine={false} axisLine={false} />
-                               <YAxis dataKey="name" type="category" tick={{fontSize: 10}} tickLine={false} axisLine={false} width={80} />
-                               <RechartsTooltip cursor={{fill: 'transparent'}} contentStyle={{fontSize: '12px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
+                               <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--line)" />
+                               <XAxis type="number" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis dataKey="name" type="category" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} width={80} />
+                               <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
                                <Bar dataKey="rate" name="Win Rate %" radius={[0, 4, 4, 0]}>
                                  {[
-                                   { name: 'Public Sector', rate: 78, fill: '#0f172a' },
-                                   { name: 'Healthcare', rate: 65, fill: '#334155' },
-                                   { name: 'Financial', rate: 82, fill: '#475569' },
-                                   { name: 'Technology', rate: 54, fill: '#64748b' },
-                                   { name: 'Retail', rate: 41, fill: '#94a3b8' }
+                                   { name: 'Public Sector', rate: 78, fill: '#64ffda' },
+                                   { name: 'Healthcare', rate: 65, fill: '#4ea5ff' },
+                                   { name: 'Financial', rate: 82, fill: '#7e5bef' },
+                                   { name: 'Technology', rate: 54, fill: '#ff4e00' },
+                                   { name: 'Retail', rate: 41, fill: '#f59e0b' }
                                  ].map((entry, index) => (
                                    <Cell key={`cell-${index}`} fill={entry.fill} />
                                  ))}
-                               </Bar>
+                                </Bar>
                             </BarChart>
                          </ResponsiveContainer>
                       </div>
@@ -4282,8 +4285,8 @@ export default function App() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
-                      <h3 className="font-sans font-bold text-sm mb-4">AI Confidence Score Trends</h3>
+                   <div className="bento-card">
+                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">AI Confidence Score Trends</h3>
                       <div className="h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={[
@@ -4296,22 +4299,22 @@ export default function App() {
                             ]}>
                                <defs>
                                   <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3}/>
-                                    <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
+                                    <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor="var(--accent)" stopOpacity={0}/>
                                   </linearGradient>
                                </defs>
-                               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                               <XAxis dataKey="name" tick={{fontSize: 10}} tickLine={false} axisLine={false} />
-                               <YAxis tick={{fontSize: 10}} tickLine={false} axisLine={false} domain={[60, 100]} />
-                               <RechartsTooltip contentStyle={{fontSize: '12px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
-                               <Area type="monotone" dataKey="score" stroke="#2563eb" strokeWidth={2} fillOpacity={1} fill="url(#colorScore)" />
+                               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--line)" />
+                               <XAxis dataKey="name" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} domain={[60, 100]} />
+                               <RechartsTooltip contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
+                               <Area type="monotone" dataKey="score" stroke="var(--accent)" strokeWidth={2} fillOpacity={1} fill="url(#colorScore)" />
                             </AreaChart>
                          </ResponsiveContainer>
                       </div>
                    </div>
 
-                   <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
-                      <h3 className="font-sans font-bold text-sm mb-4">Processing Bottlenecks (Avg Days)</h3>
+                   <div className="bento-card">
+                      <h3 className="font-sans font-bold text-sm mb-4 text-[var(--ink)] opacity-80">Processing Bottlenecks (Avg Days)</h3>
                       <div className="h-[250px]">
                          <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={[
@@ -4321,16 +4324,17 @@ export default function App() {
                               { name: 'Pricing', days: 5.1 },
                               { name: 'Final Review', days: 2.3 }
                             ]}>
-                               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                               <XAxis dataKey="name" tick={{fontSize: 10}} tickLine={false} axisLine={false} />
-                               <YAxis tick={{fontSize: 10}} tickLine={false} axisLine={false} />
-                               <RechartsTooltip cursor={{fill: 'transparent'}} contentStyle={{fontSize: '12px', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'}} />
+                               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--line)" />
+                               <XAxis dataKey="name" tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <YAxis tick={{fontSize: 10, fill: 'var(--muted)'}} tickLine={false} axisLine={false} />
+                               <RechartsTooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{fontSize: '12px', borderRadius: '12px', border: '1px solid var(--line)', backgroundColor: 'var(--card-bg)', color: 'var(--ink)'}} />
                                <Bar dataKey="days" name="Avg Days in Stage" fill="#f43f5e" radius={[4, 4, 0, 0]} />
                             </BarChart>
                          </ResponsiveContainer>
                       </div>
                    </div>
                 </div>
+
               </motion.div>
             )}
 
@@ -4343,25 +4347,25 @@ export default function App() {
                 className={`p-6 md:p-10 ${isFullWidth ? 'w-full' : 'max-w-7xl'} mx-auto w-full`}
               >
                 <div className="mb-8 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--card-bg)] border border-[var(--accent)] text-[var(--accent)] flex items-center justify-center shadow-[0_0_15px_rgba(100,255,218,0.2)]">
                     <Cpu size={18} />
                   </div>
-                  <h2 className="text-2xl font-bold tracking-tight text-slate-900 font-sans uppercase">Control Center</h2>
+                  <h2 className="text-2xl font-bold tracking-tight text-[var(--ink)] font-sans uppercase">Control Center</h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 auto-rows-[minmax(200px,auto)] gap-6">
+                <div className="bento-grid !p-0">
 
                   {/* 1. Quick RFx Ingest */}
-                  <div className="col-span-1 md:col-span-6 lg:col-span-8 row-span-1 bg-slate-900 text-white rounded-[32px] p-6 md:p-8 relative overflow-hidden flex flex-col justify-between shadow-xl">
-                    <div className="absolute -top-12 -right-12 p-12 opacity-[0.03] pointer-events-none transform rotate-12">
+                  <div className="col-span-1 md:col-span-12 lg:col-span-8 bento-card !bg-[var(--accent)] !text-[var(--bg)] flex flex-col justify-between shadow-xl">
+                    <div className="absolute -top-12 -right-12 p-12 opacity-10 pointer-events-none transform rotate-12">
                       <Upload size={200} />
                     </div>
                     <div className="z-10 flex-col md:flex-row md:items-center flex justify-between gap-6 h-full">
                       <div>
-                        <h2 className="font-sans text-2xl font-semibold tracking-tight mb-2 flex items-center gap-3">
-                          <Upload className="text-blue-400" size={24} /> Quick RFx Ingest
+                        <h2 className="font-sans text-2xl font-bold tracking-tight mb-2 flex items-center gap-3">
+                          <Upload size={24} /> Quick RFx Ingest
                         </h2>
-                        <p className="font-mono text-xs opacity-60 max-w-lg leading-relaxed">
+                        <p className="font-mono text-xs opacity-70 max-w-lg leading-relaxed">
                           Upload your RFP/RFI documentation for immediate AI evaluation. 
                           NGP-002 Orchestrator will automatically extract requirements, identify risks, and calculate your target score.
                         </p>
@@ -4369,9 +4373,9 @@ export default function App() {
                       <div className="z-10 w-full md:w-auto shrink-0 flex items-center h-full">
                         <button 
                           onClick={() => setIsQuickIngestModalOpen(true)}
-                          className="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-white text-slate-900 rounded-full px-8 py-3 font-sans font-medium text-sm transition-transform cursor-pointer hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                          className="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-[var(--bg)] text-[var(--accent)] rounded-full px-8 py-3 font-sans font-bold text-sm transition-transform cursor-pointer hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                         >
-                          <PlusCircle size={20} className="text-blue-600" />
+                          <PlusCircle size={20} />
                           <span>Analyze New RFP</span>
                         </button>
                       </div>
@@ -4379,52 +4383,52 @@ export default function App() {
                   </div>
 
                   {/* 2. Task Status */}
-                  <div className="col-span-1 md:col-span-3 lg:col-span-4 row-span-1 bg-white border border-neutral-100 rounded-[32px] p-8 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                  <div className="col-span-1 md:col-span-6 lg:col-span-4 bento-card flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start mb-4">
-                        <div className="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center">
                            <CheckCircle2 size={20} />
                         </div>
-                        <span className="text-[10px] font-mono text-green-600 bg-green-50 px-3 py-1 rounded-full uppercase font-bold tracking-widest">STATUS.OK</span>
+                        <span className="text-[10px] font-mono text-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1 rounded-full uppercase font-bold tracking-widest">STATUS.OK</span>
                       </div>
-                      <h3 className="font-sans text-lg font-medium text-slate-900 mb-2 truncate" title={CONTROL_PACK.completedTask}>
+                      <h3 className="font-sans text-lg font-medium text-[var(--ink)] mb-2 truncate" title={CONTROL_PACK.completedTask}>
                         {CONTROL_PACK.completedTask}
                       </h3>
-                      <p className="font-sans text-sm text-neutral-500 line-clamp-2">
+                      <p className="font-sans text-sm text-[var(--muted)] line-clamp-2">
                         {CONTROL_PACK.summary}
                       </p>
                     </div>
-                    <div className="mt-4 pt-4 border-t border-neutral-100 flex items-center gap-2 text-[10px] font-mono text-neutral-400 font-bold uppercase tracking-widest">
+                    <div className="mt-4 pt-4 border-t border-[var(--line)] flex items-center gap-2 text-[10px] font-mono text-[var(--muted)] font-bold uppercase tracking-widest">
                       <Terminal size={12} /> NGP-002 ENFORCED
                     </div>
                   </div>
 
                   {/* 4. Next Tasks */}
-                  <div className="col-span-1 md:col-span-12 lg:col-span-8 row-span-2 bg-white border border-neutral-100 rounded-[32px] p-8 shadow-sm overflow-hidden flex flex-col">
+                  <div className="col-span-1 md:col-span-12 lg:col-span-8 bento-card flex flex-col h-[600px]">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-[var(--line)] text-[var(--accent)] flex items-center justify-center shrink-0">
                         <Target size={20} />
                       </div>
-                      <h4 className="font-sans text-xl font-medium tracking-tight">System Roadmap</h4>
+                      <h4 className="font-sans text-xl font-medium tracking-tight text-[var(--ink)]">System Roadmap</h4>
                     </div>
-                    <div className="space-y-6 overflow-y-auto pr-2 flex-1 font-mono text-sm leading-relaxed">
-                      <h4 className="font-bold text-base mb-2 uppercase border-b border-black/10 pb-2">Phase 1: Infrastructure & Storage Reality</h4>
+                    <div className="space-y-6 overflow-y-auto pr-2 flex-1 font-mono text-sm leading-relaxed text-[var(--ink)] opacity-90">
+                      <h4 className="font-bold text-base mb-2 uppercase border-b border-[var(--line)] pb-2 text-[var(--accent)]">Phase 1: Infrastructure & Storage Reality</h4>
                       <ul className="list-disc pl-6 space-y-2 mb-6">
-                        <li className="line-through opacity-50 text-green-700">Transition from simulated/mock file parsing to real file handling.</li>
-                        <li className="line-through opacity-50 text-green-700">Integrate Google Drive API for persistent file storage.</li>
-                        <li className="line-through opacity-50 text-green-700">Structure: Internal/Templates folder vs Submissions/Client folders.</li>
-                        <li className="line-through opacity-50 text-green-700">Configure OAuth scopes for Drive access.</li>
+                        <li className="line-through opacity-50 text-[var(--accent)]">Transition from simulated/mock file parsing to real file handling.</li>
+                        <li className="line-through opacity-50 text-[var(--accent)]">Integrate Google Drive API for persistent file storage.</li>
+                        <li className="line-through opacity-50 text-[var(--accent)]">Structure: Internal/Templates folder vs Submissions/Client folders.</li>
+                        <li className="line-through opacity-50 text-[var(--accent)]">Configure OAuth scopes for Drive access.</li>
                       </ul>
 
-                      <h4 className="font-bold text-base mb-2 uppercase border-b border-black/10 pb-2">Phase 2: GEM Implementation ("Requirements Hunter")</h4>
-                      <ul className="list-disc pl-6 space-y-2 mb-6 text-blue-800 font-bold">
+                      <h4 className="font-bold text-base mb-2 uppercase border-b border-[var(--line)] pb-2 text-[var(--accent)]">Phase 2: GEM Implementation ("Requirements Hunter")</h4>
+                      <ul className="list-disc pl-6 space-y-2 mb-6 text-blue-400 font-bold">
                         <li>Ingest the user's 17+ Prompts and GEM Instructions.</li>
                         <li>Build the "Requirements Hunter" execution pipeline using Gemini API.</li>
                         <li>Implement the capability to truly parse extracted text from PDFs/Word Docs and pass to Gemini.</li>
                         <li>Extract overt, implied, inferred, and hidden requirements into the DB.</li>
                       </ul>
 
-                      <h4 className="font-bold text-base mb-2 uppercase border-b border-black/10 pb-2">Phase 3: Scorecard & Automation</h4>
+                      <h4 className="font-bold text-base mb-2 uppercase border-b border-[var(--line)] pb-2 text-[var(--accent)]">Phase 3: Scorecard & Automation</h4>
                       <ul className="list-disc pl-6 space-y-2">
                         <li>Implement the Scorecard generator GEM.</li>
                         <li>Map Requirements Hunter outputs to the Scorecard's 16 sections.</li>
@@ -4434,20 +4438,20 @@ export default function App() {
                   </div>
 
                   {/* 5. Hand-off Path Updates */}
-                  <div className="col-span-1 md:col-span-6 lg:col-span-6 row-span-2 bg-[#f5f5f5] border border-neutral-200 rounded-[32px] p-8 shadow-inner overflow-hidden flex flex-col">
+                  <div className="col-span-1 md:col-span-12 lg:col-span-4 bento-card flex flex-col h-[600px]">
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-10 h-10 rounded-full bg-white text-slate-900 flex items-center justify-center shrink-0 border border-neutral-200 shadow-sm">
+                      <div className="w-10 h-10 rounded-full bg-[var(--line)] text-[var(--ink)] flex items-center justify-center shrink-0 border border-white/5 shadow-sm">
                         <Workflow size={20} />
                       </div>
-                      <h4 className="font-sans text-xl font-medium tracking-tight">v9 Hand-off Updates</h4>
+                      <h4 className="font-sans text-xl font-medium tracking-tight text-[var(--ink)]">v9 Hand-off Updates</h4>
                     </div>
                     <div className="space-y-3 overflow-y-auto pr-2 flex-1">
                       {['Assumptions', 'Dependencies', 'Clarifications', 'Exceptions', 'Pricing Notes', 'Residual Risks'].map((item) => (
-                        <div key={item} className="data-row bg-white">
-                          <span className="font-mono text-[10px] opacity-40 italic w-8 shrink-0">#0{item.length}</span>
-                          <span className="font-sans font-medium text-sm flex-1">{item}</span>
-                          <span className="uppercase text-[10px] font-mono tracking-widest text-neutral-400 mr-4">Hand-off</span>
-                          <span className="flex items-center justify-center text-green-600 bg-green-100 rounded-full w-8 h-8 shrink-0">
+                        <div key={item} className="data-row">
+                          <span className="font-mono text-[10px] opacity-40 italic w-8 shrink-0 text-[var(--ink)]">#0{item.length}</span>
+                          <span className="font-sans font-medium text-sm flex-1 text-[var(--ink)]">{item}</span>
+                          <span className="uppercase text-[10px] font-mono tracking-widest text-[var(--muted)] mr-4">Hand-off</span>
+                          <span className="flex items-center justify-center text-[var(--bg)] bg-[var(--accent)] rounded-full w-8 h-8 shrink-0 shadow-[0_0_10px_rgba(100,255,218,0.3)]">
                             <Check size={14} strokeWidth={3} />
                           </span>
                         </div>
@@ -4458,6 +4462,7 @@ export default function App() {
                 </div>
               </motion.div>
             )}
+
 
             {activeTab === 'manifest' && (
               <motion.div 
@@ -6001,13 +6006,13 @@ export default function App() {
                 <div className="flex gap-8 max-w-5xl">
                   {/* Left Sidebar options */}
                   <div className="w-1/4 flex flex-col gap-2 font-mono text-sm border-r border-black/20 pr-4">
-                    {['general', 'manifest', 'personas', 'users', 'integrations', 'drive', 'rag_sources', ...(user?.email === 'recirc@gmail.com' ? ['system_tasks'] : [])].map((sec) => (
+                    {['general', 'manifest', 'personas', 'users', 'integrations', 'drive', 'rag_sources', 'notifications', ...(user?.email === 'recirc@gmail.com' ? ['system_tasks'] : [])].map((sec) => (
                       <button 
                         key={sec}
                         onClick={() => setConfigSection(sec as any)}
                         className={`text-left px-4 py-3 uppercase font-bold transition-colors ${configSection === sec ? 'bg-slate-900 text-white rounded-lg' : 'hover:bg-black/5 text-black/60'}`}
                       >
-                        {sec === 'manifest' ? 'Project Files / Manifest' : sec === 'users' ? 'User Management' : sec === 'system_tasks' ? 'System Roadmap' : sec === 'drive' ? 'Storage & Drive' : sec === 'rag_sources' ? 'Past Proposal RAG' : sec === 'personas' ? 'Expert Personas' : sec}
+                        {sec === 'manifest' ? 'Project Files / Manifest' : sec === 'users' ? 'User Management' : sec === 'system_tasks' ? 'System Roadmap' : sec === 'drive' ? 'Storage & Drive' : sec === 'rag_sources' ? 'Past Proposal RAG' : sec === 'personas' ? 'Expert Personas' : sec === 'notifications' ? 'Alerts & Notifications' : sec}
                       </button>
                     ))}
                   </div>
@@ -6422,35 +6427,6 @@ export default function App() {
                                  <div className="text-[10px] opacity-60 text-center font-mono py-4">No active services.</div>
                                )}
                              </div>
-                           </div>
-                         </div>
-
-                         <div className="bg-white rounded-xl border border-neutral-200 rounded-lg p-6 shadow-sm rounded-xl">
-                           <div className="flex justify-between border-b border-black pb-4 mb-4">
-                             <h4 className="font-bold text-sm uppercase">Event Notifications</h4>
-                           </div>
-                           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-slate-800">
-                              <label className="flex flex-col gap-2 border border-neutral-100 p-4 rounded-lg cursor-pointer hover:bg-neutral-50 transition-colors">
-                                 <div className="flex justify-between items-center">
-                                     <span className="text-xs font-mono font-bold">Task Completion</span>
-                                     <input type="checkbox" className="w-4 h-4 rounded border-neutral-300 text-slate-900" checked={notifyTaskCompletion} onChange={e => setNotifyTaskCompletion(e.target.checked)} />
-                                 </div>
-                                 <span className="text-[10px] opacity-70">Email me when pipeline tasks finish</span>
-                              </label>
-                              <label className="flex flex-col gap-2 border border-neutral-100 p-4 rounded-lg cursor-pointer hover:bg-neutral-50 transition-colors">
-                                 <div className="flex justify-between items-center">
-                                     <span className="text-xs font-mono font-bold">Status Changes</span>
-                                     <input type="checkbox" className="w-4 h-4 rounded border-neutral-300 text-slate-900" checked={notifyStatusChanges} onChange={e => setNotifyStatusChanges(e.target.checked)} />
-                                 </div>
-                                 <span className="text-[10px] opacity-70">Email me on submission state change</span>
-                              </label>
-                              <label className="flex flex-col gap-2 border border-neutral-100 p-4 rounded-lg cursor-pointer hover:bg-neutral-50 transition-colors">
-                                 <div className="flex justify-between items-center">
-                                     <span className="text-xs font-mono font-bold">New Collaborator</span>
-                                     <input type="checkbox" className="w-4 h-4 rounded border-neutral-300 text-slate-900" checked={notifyNewCollaborator} onChange={e => setNotifyNewCollaborator(e.target.checked)} />
-                                 </div>
-                                 <span className="text-[10px] opacity-70">Email me for team invitations</span>
-                              </label>
                            </div>
                          </div>
 
@@ -6886,6 +6862,80 @@ export default function App() {
                                   <Sparkles size={16} /> TRIGGER DEEP INGESTION SYNC
                                </button>
                              </div>
+                           </div>
+                        </div>
+                     )}
+                     
+                     {configSection === 'notifications' && (
+                        <div className="space-y-6 text-slate-800">
+                           <div className="flex justify-between items-center bg-black p-2 px-4 shadow-sm rounded-xl text-white w-fit mb-6">
+                             <h3 className="text-lg font-bold uppercase text-amber-400">Event Notifications</h3>
+                           </div>
+                           
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <div className="bento-card border border-neutral-200 bg-white p-6 hover:bg-neutral-50 transition-colors rounded-2xl">
+                                <div className="flex items-center justify-between mb-4">
+                                  <div className="flex items-center gap-3 text-slate-900 font-bold">
+                                    <Bell size={20} className="text-blue-600" />
+                                    <h4 className="text-sm font-bold uppercase font-sans">Project Milestones</h4>
+                                  </div>
+                                  <div className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" className="sr-only peer" checked={notifyStatusChanges} onChange={e => setNotifyStatusChanges(e.target.checked)} />
+                                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                  </div>
+                                </div>
+                                <p className="text-[10px] text-slate-500 font-mono leading-relaxed">Notify when a submission reaches a target state or lifecycle stage changes.</p>
+                              </div>
+
+                              <div className="bento-card border border-neutral-200 bg-white p-6 hover:bg-neutral-50 transition-colors rounded-2xl">
+                                <div className="flex items-center justify-between mb-4">
+                                  <div className="flex items-center gap-3 text-slate-900 font-bold">
+                                    <Users size={20} className="text-purple-600" />
+                                    <h4 className="text-sm font-bold uppercase font-sans">Collaborators</h4>
+                                  </div>
+                                  <div className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" className="sr-only peer" checked={notifyNewCollaborator} onChange={e => setNotifyNewCollaborator(e.target.checked)} />
+                                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                  </div>
+                                </div>
+                                <p className="text-[10px] text-slate-500 font-mono leading-relaxed">Alert when new team members are added or when collaboration requests are generated.</p>
+                              </div>
+
+                              <div className="bento-card border border-neutral-200 bg-white p-6 hover:bg-neutral-50 transition-colors rounded-2xl">
+                                <div className="flex items-center justify-between mb-4">
+                                  <div className="flex items-center gap-3 text-slate-900 font-bold">
+                                    <Mail size={20} className="text-amber-600" />
+                                    <h4 className="text-sm font-bold uppercase font-sans">Inbound Gateway</h4>
+                                  </div>
+                                  <div className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" className="sr-only peer" defaultChecked />
+                                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                  </div>
+                                </div>
+                                <p className="text-[10px] text-slate-500 font-mono leading-relaxed">Notify when a new external communication, addenda, or Q&A arrives in the Inbox.</p>
+                              </div>
+
+                              <div className="bento-card border border-neutral-200 bg-white p-6 hover:bg-neutral-50 transition-colors rounded-2xl">
+                                <div className="flex items-center justify-between mb-4">
+                                  <div className="flex items-center gap-3 text-slate-900 font-bold">
+                                    <Workflow size={20} className="text-green-600" />
+                                    <h4 className="text-sm font-bold uppercase font-sans">Task Completion</h4>
+                                  </div>
+                                  <div className="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" className="sr-only peer" checked={notifyTaskCompletion} onChange={e => setNotifyTaskCompletion(e.target.checked)} />
+                                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                  </div>
+                                </div>
+                                <p className="text-[10px] text-slate-500 font-mono leading-relaxed">Email when long-running pipeline tasks (Extraction, Analysis, Drafting) finish.</p>
+                              </div>
+                           </div>
+
+                           <div className="bento-card bg-neutral-100 border border-neutral-200 p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden rounded-2xl">
+                             <div className="relative z-10 text-slate-900">
+                               <h4 className="text-lg font-bold uppercase mb-2">Primary Alert Destination</h4>
+                               <p className="text-xs opacity-60 font-mono tracking-tighter">System alerts will be delivered to: <span className="text-slate-900 font-bold">{user?.email}</span></p>
+                             </div>
+                             <button onClick={() => alert('Global preferences updated.')} className="relative z-10 bg-slate-900 text-white px-8 py-3 rounded-xl font-mono font-bold uppercase text-[10px] tracking-widest hover:bg-slate-800 transition-all shadow-lg active:scale-95">Update Preferences</button>
                            </div>
                         </div>
                      )}
