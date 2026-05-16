@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Libre Baskerville", serif;
+}
+
+:root {
+  --bg: #f5f5f5; /* Recipe 8 background */
+  --ink: #000000;
+  --line: #e5e5e5;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.data-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-radius: 16px;
+  margin-bottom: 8px;
+}
+
+.data-row:hover {
+  background: #fdfdfd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transform: translateY(-1px);
+}
+
+.col-header {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  color: #6b7280;
+  border-bottom: 1px solid var(--line);
+  background-color: transparent;
+}
+
+.data-value {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+html.dark {
+  filter: invert(1) hue-rotate(180deg);
+}
+html.dark img,
+html.dark iframe,
+html.dark video,
+html.dark .no-invert {
+  filter: invert(1) hue-rotate(180deg);
+}

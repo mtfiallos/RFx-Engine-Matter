@@ -1,0 +1,142 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(ownerId) {
+      return isSignedIn() && request.auth.uid == ownerId;
+    }
+
+    function isAdmin() {
+      let userExists = exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      return isSignedIn() && userExists && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['ADMIN', 'OWNER'];
+    }
+
+    function hasAccess(docData) {
+      return isOwner(docData.ownerId) 
+          || (docData.isPublic == true)
+          || (isSignedIn() && docData.sharedWith != null && request.auth.token.email in docData.sharedWith)
+          || (isSignedIn() && docData.authorizedUsers != null && request.auth.uid in docData.authorizedUsers);
+    }
+
+    function canEdit(docData) {
+      return isOwner(docData.ownerId)
+          || (isSignedIn() && docData.authorizedUsers != null && request.auth.uid in docData.authorizedUsers && docData.authorizedUsers[request.auth.uid] in ['ADMIN', 'EDITOR']);
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.auth.uid == userId && incoming().role == 'ADMIN'; // Default first role
+      allow update: if isOwner(userId) || isAdmin();
+    }
+
+    // Validation for RfxSubmission
+    function isValidRfxSubmission(data) {
+      return data.title is string && data.title.size() <= 256
+          && data.ownerId is string
+          && (data.get('description', null) == null || (data.description is string && data.description.size() <= 2000))
+          && data.status in ['draft', 'submitted']
+          && (data.get('isPublic', null) == null || data.isPublic is bool)
+          && (data.get('sharedWith', null) == null || data.sharedWith is list)
+          && (data.get('authorizedUsers', null) == null || data.authorizedUsers is map)
+          && (data.get('data', null) == null || data.data is map)
+          && (data.get('driveFolderId', null) == null || data.driveFolderId is string)
+          && data.keys().hasAll(['title', 'ownerId', 'status', 'createdAt', 'updatedAt', 'versionHistory']);
+    }
+
+    function isValidTask(data) {
+      return data.submissionId is string
+          && data.type in ['INTAKE', 'REVIEW']
+          && data.status in ['PENDING', 'IN_PROGRESS', 'COMPLETED', 'FAILED']
+          && (data.get('progress', null) == null || (data.progress is number))
+          && data.ownerId == request.auth.uid;
+    }
+
+    match /submissions/{submissionId} {
+      allow get: if hasAccess(existing());
+      
+      allow list: if isSignedIn(); // Filtered by application queries
+      
+      allow create: if isSignedIn() 
+          && isValidId(submissionId)
+          && isValidRfxSubmission(incoming())
+          && incoming().ownerId == request.auth.uid
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time;
+          
+      allow update: if (canEdit(existing()) || isAdmin())
+          && isValidRfxSubmission(incoming())
+          && incoming().ownerId == existing().ownerId
+          && incoming().createdAt == existing().createdAt
+          && (
+            (incoming().diff(existing()).affectedKeys().hasOnly(['activeEditors']) && incoming().updatedAt == existing().updatedAt)
+            ||
+            (incoming().updatedAt == request.time && (
+              // Action: Edit content
+              (existing().status == 'draft' && incoming().diff(existing()).affectedKeys().hasOnly(['title', 'description', 'status', 'data', 'updatedAt', 'versionHistory', 'isPublic', 'sharedWith', 'authorizedUsers', 'driveFolderId', 'activeEditors'])) ||
+              // Action: Submit (terminal state)
+              (existing().status == 'draft' && incoming().status == 'submitted' && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt', 'versionHistory', 'isPublic', 'sharedWith', 'authorizedUsers', 'activeEditors'])) ||
+              // Action: Update share settings
+              (incoming().diff(existing()).affectedKeys().hasOnly(['isPublic', 'sharedWith', 'updatedAt', 'versionHistory', 'authorizedUsers', 'driveFolderId', 'activeEditors']))
+            ))
+          );
+          
+      allow delete: if (isOwner(existing().ownerId) || isAdmin());
+    }
+
+    match /tasks/{taskId} {
+      allow read: if isOwner(existing().ownerId);
+      allow create: if isSignedIn() && isValidId(taskId) && isValidTask(incoming());
+      allow update: if isOwner(existing().ownerId) && isValidTask(incoming());
+      allow delete: if isOwner(existing().ownerId);
+    }
+    match /templates/{templateId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /manifestTasks/{taskId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /platformUsers/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /platformIntegrations/{integrationId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn(); // Allow any signed in user to manage integrations for now
+    }
+
+    match /inbound_emails/{emailId} {
+      allow read, write: if isSignedIn();
+    }
+  }
+}

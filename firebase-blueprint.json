@@ -1,0 +1,135 @@
+{
+  "entities": {
+    "RfxSubmission": {
+      "title": "RFx Submission",
+      "description": "A package containing bid response data, risks, and assumptions.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The name of the RFx package" },
+        "description": { "type": "string", "description": "Brief summary of the package" },
+        "status": { "type": "string", "enum": ["draft", "submitted"], "description": "Workflow status" },
+        "ownerId": { "type": "string", "description": "UID of the creator" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "isPublic": { "type": "boolean", "description": "Whether the submission is accessible via public link" },
+        "sharedWith": { "type": "array", "description": "List of user emails this is shared with", "items": { "type": "string" } },
+        "versionHistory": {
+          "type": "array",
+          "description": "Log of changes made to the submission",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestamp": { "type": "string", "format": "date-time" },
+              "userId": { "type": "string" },
+              "userName": { "type": "string" },
+              "action": { "type": "string" }
+            }
+          }
+        },
+        "data": {
+          "type": "object",
+          "description": "The actual RFx content (risks, assumptions, etc.)",
+          "properties": {
+            "assumptions": { "type": "array" },
+            "risks": { "type": "array" },
+            "files": { "type": "array" }
+          }
+        }
+      },
+      "required": ["title", "ownerId", "status"]
+    },
+    "WorkflowTask": {
+      "title": "Workflow Task",
+      "description": "A background task for processing RFx packages (intake, review, etc.)",
+      "type": "object",
+      "properties": {
+        "submissionId": { "type": "string" },
+        "type": { "type": "string", "enum": ["INTAKE", "REVIEW"] },
+        "status": { "type": "string", "enum": ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"] },
+        "progress": { "type": "number" },
+        "logs": { "type": "array" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["submissionId", "type", "status", "ownerId"]
+    },
+    "Template": {
+      "title": "Document Template",
+      "description": "System templates and configurations.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "fileType": { "type": "string" },
+        "uploadDate": { "type": "string", "format": "date-time" },
+        "currentVersion": { "type": "number" },
+        "versions": { "type": "array" }
+      },
+      "required": ["name", "fileType", "uploadDate", "currentVersion"]
+    },
+    "ManifestTask": {
+      "title": "Manifest Task",
+      "description": "Task created from manifest",
+      "type": "object",
+      "properties": {
+        "intent": { "type": "string" },
+        "status": { "type": "string" },
+        "sourceFile": { "type": "string" },
+        "tasks": { "type": "array" }
+      },
+      "required": ["intent", "status", "sourceFile"]
+    },
+    "PlatformUser": {
+      "title": "Platform User",
+      "description": "User profile & RBAC",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["VIEWER", "EDITOR", "ADMIN", "OWNER"] },
+        "status": { "type": "string", "enum": ["INVITED", "ACTIVE"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role", "status"]
+    },
+    "PlatformIntegration": {
+      "title": "Platform Integration",
+      "description": "System integration settings, Webhooks, API keys",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["WEBHOOK", "SERVICE", "API_KEY"] },
+        "name": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "INACTIVE"] },
+        "config": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["type", "name", "status"]
+    }
+  },
+  "firestore": {
+    "/templates/{templateId}": {
+      "schema": "Template",
+      "description": "Platform document templates."
+    },
+    "/manifestTasks/{taskId}": {
+      "schema": "ManifestTask",
+      "description": "Data extracted from manifest capabilities"
+    },
+    "/platformUsers/{userId}": {
+      "schema": "PlatformUser",
+      "description": "RBAC user list."
+    },
+    "/platformIntegrations/{integrationId}": {
+      "schema": "PlatformIntegration",
+      "description": "Integrations list."
+    },
+    "/submissions/{submissionId}": {
+      "schema": "RfxSubmission",
+      "description": "Collection of RFx packages created by users."
+    },
+    "/tasks/{taskId}": {
+      "schema": "WorkflowTask",
+      "description": "Background processing tasks linked to submissions."
+    }
+  }
+}

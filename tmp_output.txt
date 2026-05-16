@@ -1,0 +1,67 @@
+2701-  const [editingId, setEditingId] = useState<string | null>(null);
+2702-  const [autoStartScan, setAutoStartScan] = useState(false);
+2703-  const [historyId, setHistoryId] = useState<string | null>(null);
+2704-  const [editTitle, setEditTitle] = useState('');
+2705-  const [editDesc, setEditDesc] = useState('');
+2706:  const [editData, setEditData] = useState<RfxData>({ assumptions: [], risks: [], files: [] });
+2707-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+2708-  const [errorHeader, setErrorHeader] = useState<{message: string, details?: string, nextSteps?: string} | null>(null);
+2709-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+2710-  const [bulkActionConfirm, setBulkActionConfirm] = useState<{ action: 'delete' | 'submit', count: number } | null>(null);
+2711-  const [sharingId, setSharingId] = useState<string | null>(null);
+--
+2805-  };
+2806-
+2807-  // Autosave Support
+2808-  const editTitleRef = React.useRef(editTitle);
+2809-  const editDescRef = React.useRef(editDesc);
+2810:  const editDataRef = React.useRef(editData);
+2811-  const editingIdRef = React.useRef(editingId);
+2812-
+2813-  useEffect(() => {
+2814-    editTitleRef.current = editTitle;
+2815-    editDescRef.current = editDesc;
+2816:    editDataRef.current = editData;
+2817-    editingIdRef.current = editingId;
+2818:  }, [editTitle, editDesc, editData, editingId]);
+2819-
+2820-  useEffect(() => {
+2821-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+2822-      if (editingIdRef.current) {
+2823-        e.preventDefault();
+--
+2832-        updateSubmission(
+2833-          editingIdRef.current,
+2834-          {
+2835-            title: editTitleRef.current,
+2836-            description: editDescRef.current,
+2837:            data: editDataRef.current
+2838-          },
+2839-          'AUTOSAVE_DRAFT'
+2840-        ).catch(err => console.error("Autosave failed:", err));
+2841-      }
+2842-    }, 30000); // Autosave every 30 seconds
+--
+3151-    if (!editingId) return;
+3152-    try {
+3153-      await updateSubmission(editingId, { 
+3154-        title: editTitle, 
+3155-        description: editDesc,
+3156:        data: editData 
+3157-      });
+3158-      setEditingId(null);
+3159-      setAutoStartScan(false);
+3160-    } catch (err: any) {
+3161-      setErrorHeader({ message: "Update failed.", details: err.message || "Data might be too large (max 1MB limits in Firestore).", nextSteps: "Try removing multiple large files or splitting your submission." });
+--
+4700-                                    />
+4701-                                  </div>
+4702-                                </div>
+4703-
+4704-                                <RegistersManager 
+4705:                                  data={editData} 
+4706-                                  onChange={setEditData} 
+4707-                                  submissionId={editingId}
+4708-                                  user={user}
+4709-                                  autoStartScan={autoStartScan}
+4710-                                  aiPacingMs={aiPacingMs}

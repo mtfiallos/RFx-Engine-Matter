@@ -1,0 +1,564 @@
+136-        <div className="flex justify-between items-start mb-6 border-b border-black pb-4">
+137-          <div>
+138-            <h3 className="font-mono text-sm font-bold uppercase tracking-tight">Share & Permissions</h3>
+139-            <p className="font-mono text-[10px] opacity-60 uppercase">{submission.title}</p>
+140-          </div>
+141:          <button onClick={onClose} className="hover:rotate-90 transition-transform">
+142-            <X size={20} />
+143-          </button>
+144-        </div>
+145-
+146-        <div className="space-y-6">
+147-          <div className="flex items-center justify-between p-4 border border-black bg-neutral-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+148-            <div>
+149-              <p className="font-mono text-xs font-bold uppercase">Public Access</p>
+150-              <p className="font-mono text-[9px] opacity-60">Anyone with the link can view</p>
+151-            </div>
+152:            <button 
+153-              onClick={() => onTogglePublic(!submission.isPublic)}
+154-              className={`w-12 h-6 border border-black flex items-center p-1 transition-colors ${submission.isPublic ? 'bg-black' : 'bg-white'}`}
+155-            >
+156-              <div className={`w-4 h-4 transition-transform ${submission.isPublic ? 'bg-white translate-x-6' : 'bg-black'}`} />
+157-            </button>
+--
+165-                placeholder="collaborator@example.com"
+166-                value={emailInput}
+167-                onChange={(e) => setEmailInput(e.target.value)}
+168-                className="flex-1 border border-black px-3 py-2 font-mono text-[10px] outline-none"
+169-              />
+170:              <button 
+171-                onClick={handleAddShare}
+172-                className="bg-black text-white px-4 font-mono text-[10px] font-bold uppercase hover:bg-neutral-800"
+173-              >
+174-                INVITE
+175-              </button>
+--
+180-                <div key={email} className="flex items-center justify-between p-2 bg-neutral-50 border border-black text-[10px]">
+181-                  <div className="flex items-center gap-2">
+182-                    <Shield size={10} className="text-blue-600" />
+183-                    <span className="font-mono font-bold lowercase">{email}</span>
+184-                  </div>
+185:                  <button onClick={() => onRemoveShare(email)} className="text-red-600 hover:scale-110">
+186-                    <Trash2 size={10} />
+187-                  </button>
+188-                </div>
+189-              ))}
+190-              {(!submission.sharedWith || submission.sharedWith.length === 0) && (
+--
+197-            <label className="font-mono text-[9px] font-bold uppercase opacity-50">Deep Link</label>
+198-            <div className="flex gap-2">
+199-              <div className="flex-1 border border-black px-3 py-2 bg-neutral-50 font-mono text-[10px] truncate">
+200-                {shareUrl}
+201-              </div>
+202:              <button 
+203-                onClick={copyToClipboard}
+204-                className="bg-black text-white px-4 flex items-center gap-2 hover:bg-neutral-800 transition-colors"
+205-              >
+206-                {copying ? <CheckCircle2 size={14} /> : <Copy size={14} />}
+207-                <span className="font-mono text-[10px] font-bold uppercase">{copying ? 'COPIED' : 'COPY'}</span>
+208-              </button>
+209-            </div>
+210-          </div>
+211-        </div>
+212-
+213:        <button 
+214-          onClick={onClose}
+215-          className="w-full mt-8 bg-black text-white py-3 font-mono text-xs font-bold tracking-widest hover:bg-neutral-800 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+216-        >
+217-          CONFIRM SETTINGS
+218-        </button>
+--
+606-                  {data.lifecycle.scoreDelta && ` // Optimization Delta: +${data.lifecycle.scoreDelta}%`}
+607-                </p>
+608-              </div>
+609-            </div>
+610-            {(data.lifecycle.executiveSummary || data.lifecycle.remediationActions) && (
+611:              <button 
+612-                onClick={() => setShowAiReport(true)}
+613-                className="bg-blue-600 text-white px-4 py-2 font-mono text-[10px] font-bold uppercase hover:bg-blue-700 transition-colors"
+614-              >
+615-                View AI Strategy Report
+616-              </button>
+--
+633-                <p className="font-mono text-[10px] opacity-70">
+634-                  Documentation detected. Ready to trigger NGP-002 Orchestrator for requirement mapping and risk scoring.
+635-                </p>
+636-              </div>
+637-            </div>
+638:            <button 
+639-              onClick={() => {
+640-                if (submissionId) {
+641-                  startTask('INTAKE');
+642-                } else {
+643-                  alert("Submission ID missing. Please ensure document is saved to a draft first.");
+--
+663-            <h5 className="font-mono text-xs font-bold uppercase tracking-tight">Support Documentation Package</h5>
+664-          </div>
+665-          {!readOnly && (
+666-            <>
+667-              <Tooltip content="Upload documentation (or drag & drop files here)">
+668:                <button 
+669-                  onClick={() => fileInputRef.current?.click()}
+670-                  className="font-mono text-[9px] font-bold uppercase underline hover:no-underline px-2 py-1 bg-black text-white"
+671-                >
+672-                  + UPLOAD FILE
+673-                </button>
+--
+687-          <div className="mb-4 bg-red-50 text-red-700 border-l-4 border-red-500 p-3 flex justify-between items-start">
+688-            <div>
+689-              <p className="font-mono text-[10px] font-bold uppercase">Upload Error</p>
+690-              <p className="font-mono text-[9px]">{uploadError}</p>
+691-            </div>
+692:            <button onClick={() => setUploadError(null)} className="opacity-50 hover:opacity-100">
+693-              <X size={12} />
+694-            </button>
+695-          </div>
+696-        )}
+697-
+--
+705-                    <p className="font-mono text-[10px] font-bold truncate uppercase">{f.name}</p>
+706-                    <p className="font-mono text-[8px] opacity-40 uppercase">{(f.size / (1024 * 1024)).toFixed(1)}MB // {f.uploadedAt.split('T')[0]}</p>
+707-                  </div>
+708-                </div>
+709-                {!readOnly && (
+710:                  <button onClick={() => removeFile(idx)} className="text-red-600 hover:scale-110 transition-transform">
+711-                    <Trash2 size={12} />
+712-                  </button>
+713-                )}
+714-              </div>
+715-
+--
+718-                  <div className="flex items-center justify-between">
+719-                    <div className="flex items-center gap-1.5 text-blue-600">
+720-                      <Sparkles size={10} />
+721-                      <span className="font-mono text-[8px] font-bold uppercase">Intelligence Detected</span>
+722-                    </div>
+723:                    <button 
+724-                      onClick={() => setSelectedFileAction(f)}
+725-                      className="font-mono text-[8px] font-bold uppercase underline hover:no-underline"
+726-                    >
+727-                      View Report
+728-                    </button>
+--
+772-              <h5 className="font-mono text-xs font-bold uppercase tracking-tight">Active Automation Workflows</h5>
+773-              <p className="font-mono text-[8px] opacity-50 uppercase">System-level intake & exhaustive review threads</p>
+774-            </div>
+775-          </div>
+776-          {!readOnly && (
+777:            <button 
+778-              onClick={() => startTask('INTAKE')}
+779-              disabled={tasks.some(t => t.status === 'IN_PROGRESS')}
+780-              className="bg-black text-white px-4 py-2 font-mono text-[10px] font-bold uppercase disabled:opacity-30 flex items-center gap-2 hover:bg-neutral-800 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]"
+781-            >
+782-              <Cpu size={14} className={tasks.some(t => t.status === 'IN_PROGRESS') ? 'animate-spin' : ''} /> 
+--
+867-            <h5 className="font-mono text-xs font-bold uppercase tracking-tight">Assumptions & Dependencies</h5>
+868-          </div>
+869-          <div className="flex items-center gap-4">
+870-            {!readOnly && (
+871-              <Tooltip content="Run GemChain AI to analyze risks and assumptions">
+872:                <button 
+873-                  onClick={handleAiAnalysis}
+874-                  disabled={isAnalyzing || (!data.assumptions?.length && !data.risks?.length)}
+875-                  className="font-mono text-[9px] font-bold uppercase flex items-center gap-1.5 px-2 py-1 bg-black text-white hover:bg-neutral-800 disabled:opacity-30 transition-colors"
+876-                >
+877-                  <Sparkles size={10} className={isAnalyzing ? 'animate-pulse' : ''} />
+--
+879-                </button>
+880-              </Tooltip>
+881-            )}
+882-            {!readOnly && (
+883-              <Tooltip content="Add a new assumption or dependency manually">
+884:                <button 
+885-                  onClick={addAssumption}
+886-                  className="font-mono text-[9px] font-bold uppercase underline hover:no-underline px-2 py-1 bg-black text-white"
+887-                >
+888-                  + ADD ROW
+889-                </button>
+--
+938-                          <p className="text-[9px] text-blue-600/80 italic leading-tight">
+939-                            Insight: {a.aiInsight}
+940-                          </p>
+941-                          <div className="flex items-center gap-2 mt-1">
+942-                            <span className="text-[7px] font-bold uppercase opacity-40">{a.feedback?.find(f => f.userId === user?.uid) ? 'Feedback:' : 'HelpfulAI?'}</span>
+943:                            <button 
+944-                              onClick={() => toggleFeedback('assumption', idx, 'helpful')}
+945-                              className={`p-0.5 border border-black/10 rounded-sm hover:bg-green-50 ${a.feedback?.find(f => f.userId === user?.uid)?.rating === 'helpful' ? 'bg-green-100 border-green-500' : ''}`}
+946-                            >
+947-                              <ThumbsUp size={8} />
+948-                            </button>
+949:                            <button 
+950-                              onClick={() => toggleFeedback('assumption', idx, 'not_helpful')}
+951-                              className={`p-0.5 border border-black/10 rounded-sm hover:bg-red-50 ${a.feedback?.find(f => f.userId === user?.uid)?.rating === 'not_helpful' ? 'bg-red-100 border-red-500' : ''}`}
+952-                            >
+953-                              <ThumbsDown size={8} />
+954-                            </button>
+955-                            {a.feedback?.find(f => f.userId === user?.uid) && activeFeedback?.type !== 'assumption' && (
+956:                              <button 
+957-                                onClick={() => setActiveFeedback({type: 'assumption', idx})} 
+958-                                className="text-[7px] underline text-black/50 hover:text-black"
+959-                              >
+960-                                {a.feedback?.find(f => f.userId === user?.uid)?.comment ? '(Edit Comment)' : '(Add Comment)'}
+961-                              </button>
+--
+1015-                      <option value="closed">CLOSED</option>
+1016-                    </select>
+1017-                  </td>
+1018-                  {!readOnly && (
+1019-                    <td className="p-2 text-center">
+1020:                      <button onClick={() => removeAssumption(idx)} className="text-red-600 hover:scale-110 transition-transform">
+1021-                        <Trash2 size={12} />
+1022-                      </button>
+1023-                    </td>
+1024-                  )}
+1025-                </tr>
+--
+1040-            <AlertCircle size={14} className="text-red-600" />
+1041-            <h5 className="font-mono text-xs font-bold uppercase tracking-tight text-red-600">Risk Register</h5>
+1042-          </div>
+1043-          {!readOnly && (
+1044-            <Tooltip content="Add a new risk matrix entry">
+1045:              <button 
+1046-                onClick={addRisk}
+1047-                className="font-mono text-[9px] font-bold uppercase underline hover:no-underline px-2 py-1 bg-black text-white"
+1048-              >
+1049-                + ADD ROW
+1050-              </button>
+--
+1099-                            <span>P: {r.aiProbabilityScore}%</span>
+1100-                            <span>I: {r.aiImpactScore}%</span>
+1101-                          </div>
+1102-                          <div className="flex items-center gap-2 mt-1">
+1103-                            <span className="text-[7px] font-bold uppercase opacity-40">{r.feedback?.find(f => f.userId === user?.uid) ? 'Feedback:' : 'HelpfulAI?'}</span>
+1104:                            <button 
+1105-                              onClick={() => toggleFeedback('risk', idx, 'helpful')}
+1106-                              className={`p-0.5 border border-black/10 rounded-sm hover:bg-green-50 ${r.feedback?.find(f => f.userId === user?.uid)?.rating === 'helpful' ? 'bg-green-100 border-green-500' : ''}`}
+1107-                            >
+1108-                              <ThumbsUp size={8} />
+1109-                            </button>
+1110:                            <button 
+1111-                              onClick={() => toggleFeedback('risk', idx, 'not_helpful')}
+1112-                              className={`p-0.5 border border-black/10 rounded-sm hover:bg-red-50 ${r.feedback?.find(f => f.userId === user?.uid)?.rating === 'not_helpful' ? 'bg-red-100 border-red-500' : ''}`}
+1113-                            >
+1114-                              <ThumbsDown size={8} />
+1115-                            </button>
+1116-                            {r.feedback?.find(f => f.userId === user?.uid) && activeFeedback?.type !== 'risk' && (
+1117:                              <button 
+1118-                                onClick={() => setActiveFeedback({type: 'risk', idx})} 
+1119-                                className="text-[7px] underline text-black/50 hover:text-black"
+1120-                              >
+1121-                                {r.feedback?.find(f => f.userId === user?.uid)?.comment ? '(Edit Comment)' : '(Add Comment)'}
+1122-                              </button>
+--
+1176-                      <option value="high">HIGH</option>
+1177-                    </select>
+1178-                  </td>
+1179-                  {!readOnly && (
+1180-                    <td className="p-2 text-center">
+1181:                      <button onClick={() => removeRisk(idx)} className="text-red-600 hover:scale-110 transition-transform">
+1182-                        <Trash2 size={12} />
+1183-                      </button>
+1184-                    </td>
+1185-                  )}
+1186-                </tr>
+--
+1195-        </div>
+1196-      </section>
+1197-
+1198-      {!readOnly && (
+1199-        <div className="flex justify-end pt-8 border-t border-black/10">
+1200:          <button 
+1201-            onClick={() => {
+1202-              if (confirm("Finalize NGP-002 Register? This will lock the submission package for formal evaluation.")) {
+1203-                if (submissionId) {
+1204-                  submitPackage(submissionId);
+1205-                  window.location.reload();
+--
+1233-                  <div>
+1234-                    <h3 className="font-mono text-sm font-bold uppercase tracking-[0.2em]">Intelligence Extraction Report</h3>
+1235-                    <p className="font-mono text-[9px] opacity-60 uppercase">{selectedFileAction.name}</p>
+1236-                  </div>
+1237-                </div>
+1238:                <button onClick={() => setSelectedFileAction(null)} className="hover:rotate-90 transition-transform p-2">
+1239-                  <X size={24} />
+1240-                </button>
+1241-              </div>
+1242-
+1243-              <div className="flex-1 overflow-y-auto p-8 border-b border-black">
+--
+1307-                  </div>
+1308-                </div>
+1309-              </div>
+1310-
+1311-              <div className="p-6 border-t border-black bg-neutral-50 flex justify-end">
+1312:                <button 
+1313-                  onClick={() => setSelectedFileAction(null)}
+1314-                  className="bg-black text-white px-8 py-3 font-mono text-xs font-bold tracking-widest hover:bg-neutral-800 transition-colors"
+1315-                >
+1316-                  DISMISS REPORT
+1317-                </button>
+--
+1340-                  <div>
+1341-                    <h3 className="font-mono text-lg font-bold uppercase tracking-tighter">RFx Execution Strategy (GEM 06/07)</h3>
+1342-                    <p className="font-mono text-[10px] opacity-70 uppercase">Automated Remediation & Draft Response Engine</p>
+1343-                  </div>
+1344-                </div>
+1345:                <button onClick={() => setShowAiReport(false)} className="hover:rotate-90 transition-transform bg-white/20 p-2">
+1346-                  <X size={24} />
+1347-                </button>
+1348-              </div>
+1349-
+1350-              <div className="flex-1 overflow-y-auto p-12 space-y-12">
+--
+1402-                  </div>
+1403-                )}
+1404-              </div>
+1405-
+1406-              <div className="p-6 border-t border-black bg-neutral-50 flex justify-end gap-4">
+1407:                <button 
+1408-                  onClick={() => setShowAiReport(false)}
+1409-                  className="px-8 py-3 font-mono text-xs font-bold border border-black hover:bg-neutral-100"
+1410-                >
+1411-                  DISMISS
+1412-                </button>
+1413:                <button 
+1414-                  onClick={() => alert('Strategy locked for submission.')}
+1415-                  className="bg-black text-white px-8 py-3 font-mono text-xs font-bold hover:bg-neutral-800"
+1416-                >
+1417-                  LOCK STRATEGY
+1418-                </button>
+--
+1719-        <div className="flex items-center gap-6 font-mono text-xs">
+1720-          {user ? (
+1721-            <div className="flex items-center gap-4">
+1722-              <div className="flex flex-col items-end">
+1723-                <span className="font-bold opacity-80">{user.displayName}</span>
+1724:                <button 
+1725-                  onClick={logout}
+1726-                  className="text-[9px] hover:underline flex items-center gap-1"
+1727-                >
+1728-                  <LogOut size={10} /> LOGOUT
+1729-                </button>
+--
+1731-              {user.photoURL && (
+1732-                <img src={user.photoURL} alt={user.displayName || ''} className="w-8 h-8 rounded-full border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" referrerPolicy="no-referrer" />
+1733-              )}
+1734-            </div>
+1735-          ) : (
+1736:            <button 
+1737-              onClick={loginWithGoogle}
+1738-              className="px-4 py-2 bg-black text-white flex items-center gap-2 hover:bg-neutral-800 transition-colors"
+1739-            >
+1740-              <LogIn size={14} /> SIGN IN
+1741-            </button>
+--
+1756-            <div className="flex flex-col">
+1757-              <span className="font-bold flex items-center gap-2"><AlertCircle size={12} /> {errorHeader.message}</span>
+1758-              {errorHeader.details && <span className="opacity-80">Details: {errorHeader.details}</span>}
+1759-              {errorHeader.nextSteps && <span className="text-yellow-200 mt-0.5">Action: {errorHeader.nextSteps}</span>}
+1760-            </div>
+1761:            <button onClick={() => setErrorHeader(null)} className="font-bold underline hover:text-black transition-colors shrink-0 max-h-min p-2">DISMISS</button>
+1762-          </div>
+1763-        )}
+1764-        {/* Sidebar Nav */}
+1765-        <nav className="w-64 border-r border-black flex flex-col bg-white/30">
+1766:          <button 
+1767-            onClick={() => setActiveTab('status')}
+1768-            className={`flex items-center gap-3 px-6 py-4 border-b border-black text-left transition-colors ${activeTab === 'status' ? 'bg-black text-white' : 'hover:bg-black/5'}`}
+1769-          >
+1770-            <ShieldCheck size={18} />
+1771-            <span className="font-mono text-xs uppercase font-bold">Control Pack</span>
+1772-          </button>
+1773:          <button 
+1774-            onClick={() => setActiveTab('manifest')}
+1775-            className={`flex items-center gap-3 px-6 py-4 border-b border-black text-left transition-colors ${activeTab === 'manifest' ? 'bg-black text-white' : 'hover:bg-black/5'}`}
+1776-          >
+1777-            <Package size={18} />
+1778-            <span className="font-mono text-xs uppercase font-bold">Manifest</span>
+1779-          </button>
+1780:          <button 
+1781-            onClick={() => setActiveTab('orchestration')}
+1782-            className={`flex items-center gap-3 px-6 py-4 border-b border-black text-left transition-colors ${activeTab === 'orchestration' ? 'bg-black text-white' : 'hover:bg-black/5'}`}
+1783-          >
+1784-            <Workflow size={18} />
+1785-            <span className="font-mono text-xs uppercase font-bold">Orchestration</span>
+1786-          </button>
+1787:          <button 
+1788-            onClick={() => setActiveTab('submissions')}
+1789-            className={`flex items-center gap-3 px-6 py-4 border-b border-black text-left transition-colors ${activeTab === 'submissions' ? 'bg-black text-white' : 'hover:bg-black/5'}`}
+1790-          >
+1791-            <FileText size={18} />
+1792-            <span className="font-mono text-xs uppercase font-bold">Submissions</span>
+--
+1993-                {!user ? (
+1994-                  <div className="flex flex-col items-center justify-center py-20 text-center">
+1995-                    <ShieldCheck size={48} className="mb-4 opacity-20" />
+1996-                    <h3 className="font-mono text-lg font-bold uppercase mb-2">Access Restricted</h3>
+1997-                    <p className="font-mono text-xs opacity-60 mb-6">Sign in to manage and submit RFx packages.</p>
+1998:                    <button 
+1999-                      onClick={loginWithGoogle}
+2000-                      className="px-8 py-3 bg-black text-white font-mono text-xs font-bold tracking-widest hover:bg-neutral-800"
+2001-                    >
+2002-                      INITIALIZE AUTHENTICATION
+2003-                    </button>
+--
+2007-                    <div className="flex items-center justify-between mb-8">
+2008-                      <div className="flex items-center gap-2">
+2009-                        <FileText />
+2010-                        <h2 className="font-mono text-xl font-bold uppercase tracking-tighter">RFx Submissions</h2>
+2011-                        {submissions.length > 0 && (
+2012:                          <button 
+2013-                            onClick={toggleSelectAll}
+2014-                            className="ml-4 font-mono text-[10px] uppercase font-bold text-black/40 hover:text-black flex items-center gap-1"
+2015-                          >
+2016-                            <div className={`w-3 h-3 border border-black flex items-center justify-center ${selectedIds.length === submissions.length ? 'bg-black text-white' : 'bg-transparent'}`}>
+2017-                              {selectedIds.length === submissions.length && <div className="w-1.5 h-1.5 bg-white" />}
+2018-                            </div>
+2019-                            {selectedIds.length === submissions.length ? 'DESELECT ALL' : 'SELECT ALL'}
+2020-                          </button>
+2021-                        )}
+2022-                      </div>
+2023:                      <button 
+2024-                        onClick={() => setIsCreating(true)}
+2025-                        className="px-4 py-2 bg-black text-white font-mono text-xs font-bold flex items-center gap-2 hover:bg-neutral-800"
+2026-                      >
+2027-                        <Plus size={16} /> NEW PACKAGE
+2028-                      </button>
+--
+2033-                        <div className="bg-black text-white px-6 py-4 flex items-center justify-between">
+2034-                          <div className="flex items-center gap-3">
+2035-                            <ShieldCheck className="text-green-400" />
+2036-                            <h3 className="font-mono text-sm font-bold uppercase tracking-widest">Shared Global Package Entry</h3>
+2037-                          </div>
+2038:                          <button 
+2039-                            onClick={() => {
+2040-                              setSharedSubmission(null);
+2041-                              window.history.replaceState({}, '', window.location.pathname);
+2042-                            }} 
+2043-                            className="hover:rotate-90 transition-transform"
+--
+2085-                        >
+2086-                          <div className="flex items-center gap-4">
+2087-                            <span className="font-mono text-xs font-bold uppercase tracking-widest">{selectedIds.length} ITEMS SELECTED</span>
+2088-                          </div>
+2089-                          <div className="flex gap-2">
+2090:                            <button 
+2091-                              onClick={handleBulkSubmit}
+2092-                              className="px-4 py-1 border border-white font-mono text-[10px] font-bold uppercase hover:bg-white hover:text-black transition-colors flex items-center gap-2"
+2093-                            >
+2094-                              <Send size={12} /> BULK SUBMIT
+2095-                            </button>
+2096:                            <button 
+2097-                              onClick={handleBulkDelete}
+2098-                              className="px-4 py-1 border border-white font-mono text-[10px] font-bold uppercase hover:bg-red-600 hover:border-red-600 transition-colors flex items-center gap-2"
+2099-                            >
+2100-                              <Trash2 size={12} /> BULK DELETE
+2101-                            </button>
+2102:                            <button 
+2103-                              onClick={() => setSelectedIds([])}
+2104-                              className="px-4 py-1 font-mono text-[10px] font-bold uppercase opacity-60 hover:opacity-100"
+2105-                            >
+2106-                              CANCEL
+2107-                            </button>
+--
+2122-                            value={newTitle}
+2123-                            onChange={(e) => setNewTitle(e.target.value)}
+2124-                            placeholder="Package Title (e.g., Q3 Cloud Migration Bid)"
+2125-                            className="flex-1 border border-black px-4 py-2 font-mono text-xs outline-none bg-neutral-50 focus:bg-white transition-colors"
+2126-                          />
+2127:                          <button 
+2128-                            onClick={handleCreate}
+2129-                            className="bg-black text-white px-6 py-2 font-mono text-xs font-bold"
+2130-                          >
+2131-                            CREATE
+2132-                          </button>
+2133:                          <button 
+2134-                            onClick={() => setIsCreating(false)}
+2135-                            className="border border-black px-6 py-2 font-mono text-xs font-bold hover:bg-neutral-100"
+2136-                          >
+2137-                            CANCEL
+2138-                          </button>
+--
+2148-                      ) : (
+2149-                        submissions.map((sub) => (
+2150-                          <div key={sub.id} className={`border border-black bg-white group hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${selectedIds.includes(sub.id!) ? 'ring-2 ring-black' : ''}`}>
+2151-                            <div className="p-4 flex items-center justify-between gap-4">
+2152-                              <div className="flex items-center gap-4 flex-1 min-w-0">
+2153:                                <button 
+2154-                                  onClick={() => toggleSelect(sub.id!)}
+2155-                                  className={`w-4 h-4 border border-black flex items-center justify-center transition-colors ${selectedIds.includes(sub.id!) ? 'bg-black text-white' : 'bg-transparent'}`}
+2156-                                >
+2157-                                  {selectedIds.includes(sub.id!) && <div className="w-2 h-2 bg-white" />}
+2158-                                </button>
+--
+2167-                                    {sub.description || 'No description provided.'}
+2168-                                  </p>
+2169-                                </div>
+2170-                              </div>
+2171-                              <div className="flex items-center gap-2">
+2172:                                <button 
+2173-                                  onClick={() => {
+2174-                                    setHistoryId(historyId === sub.id ? null : sub.id!);
+2175-                                    setEditingId(null);
+2176-                                    setAutoStartScan(false);
+2177-                                  }}
+2178-                                  className={`p-2 transition-colors ${historyId === sub.id ? 'bg-black text-white' : 'hover:bg-black hover:text-white'}`}
+2179-                                  title="View History"
+2180-                                >
+2181-                                  <History size={16} />
+2182-                                </button>
+2183:                                <button 
+2184-                                  onClick={() => setSharingId(sub.id!)}
+2185-                                  className={`p-2 transition-colors ${sub.isPublic ? 'text-blue-600' : 'hover:bg-black hover:text-white'}`}
+2186-                                  title="Share Settings"
+2187-                                >
+2188-                                  <Share2 size={16} />
+2189-                                </button>
+2190-
+2191-                                {sub.status === 'draft' && (
+2192-                                  <>
+2193:                                    <button 
+2194-                                      onClick={() => {
+2195-                                        setEditingId(sub.id!);
+2196-                                        setHistoryId(null);
+2197-                                        setEditTitle(sub.title);
+2198-                                        setEditDesc(sub.description || '');
+--
+2206-                                      className="p-2 hover:bg-black hover:text-white transition-colors"
+2207-                                      title="Edit Details"
+2208-                                    >
+2209-                                      <Save size={16} />
+2210-                                    </button>
+2211:                                    <button 
+2212-                                      onClick={() => sub.id && handleSubmit(sub.id)}
+2213-                                      className="p-2 hover:bg-black hover:text-white transition-colors"
+2214-                                      title="Submit Package"
+2215-                                    >
+2216-                                      <Send size={16} />
+2217-                                    </button>
+2218-                                  </>
+2219-                                )}
+2220:                                <button 
+2221-                                  onClick={() => sub.id && handleDelete(sub.id)}
+2222-                                  className="p-2 hover:text-red-600 transition-colors"
+2223-                                  title="Delete"
+2224-                                >
+2225-                                  <Trash2 size={16} />
+--
+2268-                                  <div className="flex items-center gap-2 text-[10px] font-mono opacity-50">
+2269-                                    <ShieldCheck size={12} />
+2270-                                    <span>v9_ENFORCEMENT_READY</span>
+2271-                                  </div>
+2272-                                  <div className="flex gap-2">
+2273:                                    <button 
+2274-                                      onClick={handleUpdate}
+2275-                                      className="bg-black text-white px-8 py-2 font-mono text-xs font-bold shadow-[4px_4px_0px_0px_rgba(34,197,94,0.3)] hover:shadow-none transition-all"
+2276-                                    >
+2277-                                      UPDATE SUBMISSION
+2278-                                    </button>
+2279:                                    <button 
+2280-                                      onClick={() => { setEditingId(null); setAutoStartScan(false); }}
+2281-                                      className="border border-black px-6 py-2 font-mono text-xs font-bold hover:bg-neutral-100"
+2282-                                    >
+2283-                                      CANCEL
+2284-                                    </button>
